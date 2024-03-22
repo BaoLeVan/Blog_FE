@@ -1885,6 +1885,11 @@ i {
     color: #222
 }
 
+.section--favorite {
+    padding: 120px 0;
+    background: url(https://firebasestorage.googleapis.com/v0/b/newfirebase-1fe01.appspot.com/o/images%2F6467d96400e84f307e21a8d7_Best%20Photography%20Blogs%20-%20Wrapbook%20-%20We%20Eat%20Together.jpeg?alt=media&token=2db6143e-6fa3-4a50-96b7-6427c7442c84) no-repeat center center/cover;
+}
+
 /* .section-gap {
     padding: 80px 0
 } */
@@ -2574,8 +2579,12 @@ i {
 
 /* Chuot */
 .main {
+    transform: translateY(85px);
+    font-size: small;
+    position: absolute;
+    right: 41%;
     width: 15em;
-    height: 20em;
+    height: 19em;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2823,10 +2832,32 @@ color: #f12828;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    font-size: 15px;
 
+}
+.format-content-title {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: 20px;
 }
 
 
+.format-manage-title {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+
+.format-manage-content {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
 /*  */
 
 header.masthead {

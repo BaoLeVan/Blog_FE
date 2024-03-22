@@ -1,6 +1,7 @@
 import React from 'react'
 import '../ui/css/databoard.css'
 import logout from '../illustration-signup.jpg'
+import { Link } from 'react-router-dom'
 
 const Logout = () => {
     return (
@@ -51,7 +52,7 @@ const Logout = () => {
                                     <div className="card-footer text-center pt-0 px-lg-2 px-1">
                                         <p className="mb-2 text-sm mx-auto">
                                             Bạn đã có tài khoản?
-                                            <a href="../pages/sign-in.html" className="text-primary text-gradient font-weight-bold">Đăng Nhập</a>
+                                            <Link to={"/login"} className="text-primary text-gradient font-weight-bold">Đăng Nhập</Link>
                                         </p>
                                     </div>
                                 </div>

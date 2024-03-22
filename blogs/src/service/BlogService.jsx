@@ -25,3 +25,8 @@ export const getListBlogCurrent = async () => {
     const res = await axios.get("http://localhost:8080/api/blog/current")
     return res.data;
 }
+
+export const findBlogByTopic = async (page,id) => {
+    const res = await axios.get(`http://localhost:8080/api/blog/findBlog?page=${page}&id=${id}`)
+    return res.data;
+}
