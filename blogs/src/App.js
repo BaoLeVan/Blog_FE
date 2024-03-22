@@ -6,6 +6,10 @@ import Logout from './ui/Logout';
 import DetailBlog from './ui/DetailBlog';
 import ListAccount from './component/admin/ListAccount';
 import AddBlog from './component/admin/AddBlog';
+import Favorite from './ui/Favorite';
+import FindBlogByTopic from './ui/FindBlogByTopic';
+import ManageBlog from './component/admin/ManageBlog';
+import EditBlog from './component/admin/EditBlog';
 
 
 function App() {
@@ -19,6 +23,10 @@ function App() {
           <Route path={"/detail/:id"} element={<DetailBlog />} />
           <Route path={"/list/blog"} element={<ListAccount />} />
           <Route path={"/add/blog"} element={<AddBlog />} />
+          <Route path={"/favorite"} element={<Favorite />} />
+          <Route path={"/findBlogByTopic"} element={<FindBlogByTopic />} />
+          <Route path={"/manageBlog"} element={<ManageBlog />} />
+          <Route path={"/editBlog/:id"} element={<EditBlog/>} />
         </Routes>
       </BrowserRouter>
     </>

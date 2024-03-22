@@ -1,5 +1,6 @@
 import React from 'react'
 import '../ui/css/databoard.css'
+import { Link } from 'react-router-dom'
 const SideBar = () => {
     return (
         <>
@@ -18,7 +19,7 @@ const SideBar = () => {
                                 <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                     <i className="material-icons opacity-10">dashboard</i>
                                 </div>
-                                <span className="nav-link-text ms-1">Chart</span>
+                                <span className="nav-link-text ms-1">Biều Đồ</span>
                             </a>
                         </li>
                         <li className="nav-item">
@@ -26,24 +27,16 @@ const SideBar = () => {
                                 <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                     <i className="material-icons opacity-10">table_view</i>
                                 </div>
-                                <span className="nav-link-text ms-1">Add Blog</span>
+                                <span className="nav-link-text ms-1">Thêm Blog</span>
                             </a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link text-white " href="../pages/billing.html">
-                                <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                                    <i className="material-icons opacity-10">receipt_long</i>
-                                </div>
-                                <span className="nav-link-text ms-1">Edit Blog</span>
-                            </a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link text-white " href="../pages/virtual-reality.html">
+                            <Link className="nav-link text-white " to={"/manageBlog"}>
                                 <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                     <i className="material-icons opacity-10">view_in_ar</i>
                                 </div>
-                                <span className="nav-link-text ms-1">Manage Blog</span>
-                            </a>
+                                <span className="nav-link-text ms-1">Quản Lý Blog</span>
+                            </Link>
                         </li>
                         <li className="nav-item">
                             <a className="nav-link text-white " href="../pages/rtl.html">

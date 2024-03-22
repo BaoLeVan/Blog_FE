@@ -12,3 +12,8 @@ export const addBlogByAdmin = async (blog) => {
     const res = await axios.post(`http://localhost:8080/api/blog/admin/addBlog`,blog)
     return res.data;
 }
+
+export const editBlogByAdmin = async (blog) => {
+    const res = await axios.post(`http://localhost:8080/api/blog/admin/editBlog`,blog)
+    return res.data;
+}

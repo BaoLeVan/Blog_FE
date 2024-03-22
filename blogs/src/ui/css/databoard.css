@@ -1,26 +1,4 @@
-/*!
 
-=========================================================
-* Material Dashboard 2 - v3.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/material-dashboard/blob/master/LICENSE.md)
-
-* Coded by www.creative-tim.com
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-/*!
-   * Bootstrap  v5.2.3 (https://getbootstrap.com/)
-   * Copyright 2011-2022 The Bootstrap Authors
-   * Copyright 2011-2022 Twitter, Inc.
-   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-   */
    :root {
     --bs-blue: #63B3ED;
     --bs-indigo: #596CFF;
@@ -2772,8 +2750,8 @@
   
   .form-control:focus {
     color: #495057;
-    background-color: transparent;
-    border-color: transparent;
+    background-color: transparent; 
+    /* border-color: transparent;  */
     outline: 0;
     box-shadow: none;
   }
@@ -23695,7 +23673,8 @@
   
   .navbar-vertical.navbar-expand-xs {
     display: block;
-    position: fixed;
+    height: 100%;
+    /* position: fixed; */
     top: 0;
     bottom: 0;
     width: 100%;

@@ -37,8 +37,9 @@ const HomePage = () => {
     })
   }, [])
 
+  
 
-  if (!blogs) return (
+  if (!blogs || !blogHighView || !blogCurrent) return (
     <div class="main">
       <div class="mario_bin"></div>
       <div class="mario_run">
@@ -72,7 +73,7 @@ const HomePage = () => {
           </div>
         </header>
         {/* Blog Noi Bat */}
-        <section style={{padding:'50px 0'}} className="category-area" id="news">
+        <section style={{ padding: '50px 0' }} className="category-area" id="news">
           <div className="container">
             <div className="row d-flex justify-content-center">
               <div className="menu-content pb-70 col-lg-8">
@@ -89,7 +90,7 @@ const HomePage = () => {
                     <img style={{ width: '320px', height: '250px' }} src={value.imageBlog} alt="img1" />
                     <p style={{ marginBottom: '5px' }} >{format(new Date(value.createDay), 'dd MMM, yyyy')}</p>
                     <div style={{ width: '300px', textAlign: 'center' }}>
-                      <a style={{ fontWeight: '600' }} href="#">{value.title}</a>
+                      <Link style={{ fontWeight: '700',color:'#222',fontSize:'18px' }} to={`/detail/${value.id}`} >{value.title}</Link>
                     </div>
                   </div>
                 ))
@@ -105,31 +106,33 @@ const HomePage = () => {
                 <div className="title text-center">
                   <h1 style={{ fontSize: '34px' }} className="mb-2">Danh sách Blog</h1>
                   <p>
-                  Blog là một tài nguyên quan trọng cung cấp các bài viết, thông tin và kiến thức đa dạng về một loạt các chủ đề, từ kinh doanh và công nghệ đến cuộc sống hàng ngày và sức khỏe, giúp người đọc mở rộng hiểu biết và tìm kiếm thông tin hữu ích.</p>
+                    Blog là một tài nguyên quan trọng cung cấp các bài viết, thông tin và kiến thức đa dạng về một loạt các chủ đề, từ kinh doanh và công nghệ đến cuộc sống hàng ngày và sức khỏe, giúp người đọc mở rộng hiểu biết và tìm kiếm thông tin hữu ích.</p>
                 </div>
               </div>
             </div>
             <div className="row d-flex justify-content-center">
-              <div className="col-lg-9 ">
-                {blogs.map(value => (
+
+              {blogs.map(value => (
+                <div className="col-lg-6 ">
                   <div key={value.id} className="single-travel media pb-60">
-                    <img className="img-fluid d-flex mr-3 col-3" src={value.imageBlog} alt />
+                    <img style={{height:'auto',width:'37%'}} className="img-fluid d-flex mr-2 col-3" src={value.imageBlog} alt />
                     <div className="dates ml-20">
                       <span>{format(new Date(value.createDay), 'dd MMM, yyyy')}</span>
                     </div>
                     <div className="media-body align-self-center">
-                      <h4 className="mt-0"><Link className='hover--a' to={`/detail/${value.id}`}>{value.title}</Link></h4>
-                      <p>{value.content}</p>
+                      <h4 className="mt-0"><Link className='hover--a format-content-title' to={`/detail/${value.id}`}>{value.title}</Link></h4>
+                      <p className='format-content'>{value.content}</p>
                       <div className="meta-bottom d-flex justify-content-between">
-                        <p><i class="far fa-eye"></i><span className="lnr lnr-heart ml-10" />{value.viewer} Viewer</p>
-                        <p className='div-img'><span className="lnr lnr-bubble">{value.nameUser}</span><img className="image--user ml-5" src={value.imageUser} alt /></p>
+                        <p style={{fontSize:'0.8rem'}} ><i class="far fa-eye"></i><span className="lnr lnr-heart ml-10" />{value.viewer} Viewer</p>
+                        <p style={{fontSize:'0.8rem'}} className='div-img'><span className="lnr lnr-bubble">{value.nameUser}</span><img className="image--user ml-5" src={value.imageUser} alt /></p>
                       </div>
                     </div>
                   </div>
-                ))
-                }
-                <a href="#" className="primary-btn load-more pbtn-2 text-uppercase mx-auto mt-60">Load More </a>
-              </div>
+                </div>
+              ))
+              }
+              <a href="#" className="primary-btn load-more pbtn-2 text-uppercase mx-auto mt-60">Load More </a>
+
             </div>
           </div>
         </section>
@@ -152,13 +155,13 @@ const HomePage = () => {
                     <div style={{ margin: "10px 0" }}>
                       <span className="date">{format(new Date(value.createDay), 'dd MMM, yyyy')}</span>
                     </div>
-                    <h4><Link style={{ fontSize: '20px' }} className='format-content hover--a' to={`/detail/${value.id}`} >{value.title}</Link></h4>
+                    <h4><Link style={{ fontSize: '20px' }} className='format-content-title hover--a' to={`/detail/${value.id}`} >{value.title}</Link></h4>
                     <p className='format-content'>
                       {value.content}
                     </p>
                     <div className="meta-bottom d-flex justify-content-between">
-                      <p><i class="far fa-eye"></i><span className="lnr lnr-heart" /> {value.viewer} Viewer</p>
-                      <p className='div-img'><span className="lnr lnr-bubble">{value.nameUser}</span><img className="image--user ml-5" src={value.imageUser} alt /></p>
+                      <p style={{fontSize:'0.8rem'}}><i class="far fa-eye"></i><span className="lnr lnr-heart" /> {value.viewer} Viewer</p>
+                      <p style={{fontSize:'0.8rem'}} className='div-img'><span className="lnr lnr-bubble">{value.nameUser}</span><img className="image--user ml-5" src={value.imageUser} alt /></p>
                     </div>
                   </div>
                 ))

@@ -45,15 +45,18 @@ const Login = () => {
                                         </div>
                                         <div className="form-check form-switch d-flex align-items-center mb-3">
                                             <input className="form-check-input" type="checkbox" id="rememberMe" defaultChecked />
-                                            <label className="form-check-label mb-0 ms-3" htmlFor="rememberMe">Remember me</label>
+                                            <label className="form-check-label mb-0 ms-3" htmlFor="rememberMe">Nhớ mật khẩu</label>
                                         </div>
                                         <div className="text-center">
                                             <button type="button" className="btn bg-gradient-primary w-100 my-4 mb-2">Đăng nhập</button>
                                         </div>
                                         <p className="mt-4 text-sm text-center">
                                             Chưa có tài khoản ?
-                                            <Link  to={"/logout"} className="text-primary text-gradient font-weight-bold">Đăng ký</Link>
+                                            <Link to={"/logout"} className="text-primary text-gradient font-weight-bold">Đăng ký</Link>
+                                            <br />
+                                            <Link style={{fontSize:'13px',fontWeight:'600'}} to={"/"} >Trang chủ</Link>
                                         </p>
+                                      
                                     </form>
                                 </div>
                             </div>

@@ -2,21 +2,39 @@ import React, { useEffect, useState } from 'react'
 import '../ui/css/Main.css'
 import Header from './Header'
 import Footer from './Footer'
-import { getBlogById } from '../service/BlogService'
-import { Link, useParams } from 'react-router-dom'
+import { findBlogByTopic, getBlogById } from '../service/BlogService'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { format } from 'date-fns';
 import { getAllCategory } from '../service/Category'
-import { FacebookProvider, Comments } from 'react-facebook';
 import MyFacebookComments from './MyFacebookComments'
-
-
+import { getAllTopic } from '../service/TopicService'
 
 
 const DetailBlog = () => {
     const [blog, setBlog] = useState();
     const [categorys, setCategorys] = useState();
+    const [idCate, setIdCate] = useState();
+    const [topic, setTopic] = useState();
+    const [listSearch, setListSearch] = useState();
+    const [idTopic, setIdTopic] = useState();
+    const native = useNavigate()
     const param = useParams();
+    const { a } = param;
 
+    useEffect(() => {
+        if (blog) {
+            setIdCate(blog.idCategory);
+        }
+    }, [blog])
+
+    useEffect(() => {
+        if (idCate) {
+            getAllTopic(idCate).then(res => {
+                console.log(res);
+                setTopic(res)
+            })
+        }
+    }, [idCate])
     useEffect(() => {
         getAllCategory().then(res => {
             setCategorys(res)
@@ -30,8 +48,22 @@ const DetailBlog = () => {
         })
     }, [param])
 
-    console.log(blog);
-    if (!blog || !categorys) return (
+    useEffect(() => {
+        if (listSearch) {
+            native("/findBlogByTopic", { state: { blog: listSearch, idCate }})
+        }
+    }, [listSearch])
+
+    const onFindBLog = (id) => {
+        findBlogByTopic(0, id).then(res => {
+            setListSearch(res);
+            setIdTopic(id);
+        })
+    }
+
+   
+
+    if (!blog || !categorys || !topic) return (
         <div class="main">
             <div class="mario_bin"></div>
             <div class="mario_run">
@@ -61,49 +93,24 @@ const DetailBlog = () => {
                         <div className="row justify-content-center">
                             <div key={blog.id} className="col-lg-8">
                                 <div className="single-page-post">
-                                    <img className="img-fluid" src={blog.imageBlog} alt />
+                                    <div className='d-flex justify-content-center'>
+                                        <img style={{ width: '80%', height: '18rem' }} className="img-fluid" src={blog.imageBlog} alt />
+                                    </div>
                                     <div className="top-wrapper ">
                                         <div className="row d-flex justify-content-between">
-                                            <h2 className="col-lg-8 col-md-12 text-uppercase">
+                                            <h2 style={{ width: '100%' }} className="col-lg-8 col-md-12 text-uppercase">
                                                 {blog.title}
                                             </h2>
-                                            <div className="col-lg-4 col-md-12 right-side d-flex justify-content-end">
-                                                <div className="desc">
-                                                    <h2>{blog.nameUser}</h2>
-                                                    <h3>{format(new Date(blog.createDay), 'dd MMM, yyyy')}</h3>
-                                                </div>
-                                                <div className="user-img">
-                                                    <img className='image---user' src={blog.imageUser} alt />
-                                                </div>
-                                            </div>
+
                                         </div>
                                     </div>
                                     <div className="single-post-content">
                                         {blog.description}
                                     </div>
-                                    {/* <div className="bottom-wrapper">
-                                                <div className="row">
-                                                    <div className="col-lg-4 single-b-wrap col-md-12">
-                                                        <i className="fa fa-heart-o" aria-hidden="true" />
-                                                        lily and 4 people like this
-                                                    </div>
-                                                    <div className="col-lg-4 single-b-wrap col-md-12">
-                                                        <i className="fa fa-comment-o" aria-hidden="true" /> 06 comments
-                                                    </div>
-                                                    <div className="col-lg-4 single-b-wrap col-md-12">
-                                                        <ul className="social-icons">
-                                                            <li><a href="#"><i className="fa fa-facebook" aria-hidden="true" /></a></li>
-                                                            <li><a href="#"><i className="fa fa-twitter" aria-hidden="true" /></a></li>
-                                                            <li><a href="#"><i className="fa fa-dribbble" aria-hidden="true" /></a></li>
-                                                            <li><a href="#"><i className="fa fa-behance" aria-hidden="true" /></a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div> */}
                                     <section className="comment-sec-area pt-80 pb-80">
                                         <div className="container">
-                                            <MyFacebookComments id={param} />
-                                            <div className="fb-comments" data-href="https://hocweb90ngay.com" data-width={700} data-numposts={5} />
+                                            <MyFacebookComments id={a} />
+                                            <div className="fb-comments" data-href="https://hocweb90ngay.com" data-width={1000} data-numposts={5} />
                                         </div>
                                     </section>
                                 </div>
@@ -116,38 +123,25 @@ const DetailBlog = () => {
                                         {blog.title}
                                     </p>
                                     <div className="social-link">
-                                        <a href="#"><button className="btn"><i className="fa fa-facebook" aria-hidden="true" /> Like</button></a>
+                                        <a href="#"><button className="btn"><i class="far fa-star"></i> Favorite</button></a>
                                         <a href="#"><button className="btn"><i className="fa fa-twitter" aria-hidden="true" /> follow</button></a>
                                     </div>
                                 </div>
-                                <div className="single_widget recent_widget">
-                                    <h4 className="text-uppercase pb-20">Recent Posts</h4>
-                                    <div className="active-recent-carusel">
-                                        <div className="item">
-                                            <img src="img/asset/slider.jpg" alt />
-                                            <p className="mt-20 title text-uppercase">Home Audio Recording <br />
-                                                For Everyone</p>
-                                            <p>02 Hours ago <span> <i className="fa fa-heart-o" aria-hidden="true" />
-                                                06 <i className="fa fa-comment-o" aria-hidden="true" />02</span></p>
-                                        </div>
-                                        <div className="item">
-                                            <img src="img/asset/slider.jpg" alt />
-                                            <p className="mt-20 title text-uppercase">Home Audio Recording <br />
-                                                For Everyone</p>
-                                            <p>02 Hours ago <span> <i className="fa fa-heart-o" aria-hidden="true" />
-                                                06 <i className="fa fa-comment-o" aria-hidden="true" />02</span></p>
-                                        </div>
-                                        <div className="item">
-                                            <img src="img/asset/slider.jpg" alt />
-                                            <p className="mt-20 title text-uppercase">Home Audio Recording <br />
-                                                For Everyone</p>
-                                            <p>02 Hours ago <span> <i className="fa fa-heart-o" aria-hidden="true" />
-                                                06 <i className="fa fa-comment-o" aria-hidden="true" />02</span></p>
-                                        </div>
-                                    </div>
+                                <div className="single_widget cat_widget">
+                                    <h4 style={{ fontSize: '18px' }} className="text-uppercase pb-20 d-flex justify-content-center">Những ngôn ngữ liên quan</h4>
+                                    <ul>
+                                        {
+                                            topic.map(value => (
+                                                <li>
+                                                    <a onClick={e => onFindBLog(value.id)}>{value.nameTopic} </a>
+                                                </li>
+
+                                            ))
+                                        }
+                                    </ul>
                                 </div>
                                 <div className="single_widget tag_widget">
-                                    <h4 className="text-uppercase pb-20">Category</h4>
+                                    <h4 style={{ fontSize: '18px' }} className="text-uppercase pb-20 d-flex justify-content-center">Category</h4>
                                     <ul>
                                         {
                                             categorys.map(value => (

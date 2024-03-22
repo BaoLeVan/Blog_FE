@@ -4,8 +4,11 @@ import SideBar from '../../ui/SideBar'
 const ListAccount = () => {
   return (
     <>
-      <SideBar />
-      <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+      <div className='row'>
+        <div className='col-3'>
+          <SideBar />
+        </div>
+        <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg col-9">
           <div className="container-fluid py-4">
             <div className="row">
               <div className="col-12">
@@ -429,8 +432,9 @@ const ListAccount = () => {
                 </div>
               </div>
             </div>
-        </div>
-      </main>
+          </div>
+        </main>
+      </div>
     </>
   )
 }

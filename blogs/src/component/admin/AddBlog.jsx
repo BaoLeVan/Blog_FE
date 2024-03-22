@@ -51,6 +51,7 @@ const AddBlog = () => {
     categoryId: "",
     topicId: "",
     view: 0,
+    userId: 1
   }
 
   console.log(value);
@@ -132,209 +133,205 @@ const AddBlog = () => {
 
   return (
     <>
-      <SideBar />
-      <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-        <div className="container-fluid py-4">
-          <div className="row">
-            <div className="col-12">
-              <section className="home-section">
-                <div className="container body_movie bg-white">
-                  <h1 style={{ paddingTop: "20px" }}>Thêm mới Blog</h1>
-                  <Formik initialValues={initialValue}
-                    onSubmit={(data) => {
-                      data.description = value
-                      data.imageBlog = imgUrls[0]
-                      console.log(data);
-                      addBlogByAdmin(data).then(res => {
-                        Swal.fire({
-                          title: "Blog đã được lưu thành công!",
-                          html: "Chuyển hướng màn hình sau <b></b>s.",
-                          timer: 2000,
-                          timerProgressBar: true,
-                        })
-                        navigate("/")
-                      })
-                    }}
-                    render={({
-                      setFieldValue
-                    }) => (
-                      <div className="container-fluid mb-5">
-                        <Form >
-                          <div className="tab-content" id="myTabContent">
-                            <div className="tab-pane fade show active" id="info" role="tabpanel"
-                              aria-labelledby="info-tab">
-                              <div className="row mt-2 d-flex justify-content-center">
-                                <div className="col-12">
-                                  <div className="row mt-3">
-                                    <div className="col-2
+      <div className='row'>
+        <div className='col-3'><SideBar />
+        </div>
+        <div className='col-9'>
+          <main class="main-content position-
+      relative max-height-vh-100 h-100 border-radius-lg">
+            <div className="container-fluid py-4">
+              <div className="row">
+                <div >
+                  <section className="home-section">
+                    <div className="container body_movie bg-white">
+                      <h1 style={{ paddingTop: "20px", display: 'flex', justifyContent: 'center' }}>Thêm mới Blog</h1>
+                      <Formik initialValues={initialValue}
+                        validationSchema={Yup.object(validationObject)}
+                        onSubmit={(data) => {
+                          data.description = value
+                          data.imageBlog = imgUrls[0]
+                          console.log(data);
+                          addBlogByAdmin(data).then(res => {
+                            Swal.fire({
+                              title: "Blog đã được lưu thành công!",
+                              html: "Chuyển hướng màn hình sau <b></b>s.",
+                              timer: 2000,
+                              timerProgressBar: true,
+                            })
+                          })
+                        }}
+                        render={({
+                          setFieldValue
+                        }) => (
+                          <div className="container-fluid mb-5">
+                            <Form >
+                              <div className="tab-content" id="myTabContent">
+                                <div className="tab-pane fade show active" id="info" role="tabpanel"
+                                  aria-labelledby="info-tab">
+                                  <div className="row mt-2 d-flex justify-content-center">
+                                    <div className="col-12">
+                                      <div className="row mt-3">
+                                        <div className="col-2
                                    d-flex align-items-center">
-                                      <b>Ảnh Blog</b><span
-                                        className="red-dot">&nbsp;*</span>
-                                    </div>
-                                    <div className="col row"
-                                      style={{ marginLeft: "initial" }}>
-                                      <div className="custom-file col">
-                                        <input
-                                          onChange={handleSelectFiles}
-                                          type="file"
-                                          id="inputPoster"
-                                          accept="image/*"
-                                          required={true}
-                                        />
+                                          <b>Ảnh Blog</b><span
+                                            style={{ color: 'red' }}>&nbsp;*</span>
+                                        </div>
+                                        <div className="col row"
+                                          style={{ marginLeft: "initial" }}>
+                                          <div className="custom-file col">
+                                            <input
+                                              onChange={handleSelectFiles}
+                                              type="file"
+                                              id="inputPoster"
+                                              accept="image/*"
+                                              required={true}
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <Field type="hidden" className="form-control"
+                                        name="imageBlog" value={imgUrls} />
+                                      <div className="row mt-3">
+                                        <div className="col-2
+                                   d-flex align-items-center">
+                                          <b>Tên Blog</b><span
+                                            style={{ color: 'red' }}>&nbsp;*</span>
+                                        </div>
+                                        <div className="col">
+                                          <Field type="text" className="form-control"
+                                            name="title" />
+                                          <ErrorMessage name="title" component='p'
+                                            className="form-err"
+                                            style={{ margin: '0', color: 'red' }} />
+                                        </div>
+                                      </div>
+                                      <div className="row mt-3">
+                                        <div className="col-2
+                                   d-flex align-items-center">
+                                          <b>Nội dung</b><span
+                                            style={{ color: 'red' }}>&nbsp;*</span>
+                                        </div>
+                                        <div className="col">
+                                          <Field type="text" className="form-control"
+                                            name="content" />
+                                          <ErrorMessage name="content" component='p'
+                                            className="form-err"
+                                            style={{ margin: '0', color: 'red' }} />
+                                        </div>
+                                      </div>
+                                      <Field type="hidden" className="form-control"
+                                        name="viewer" />
+                                      <div className="row mt-3">
+                                        <div className="col-2 d-flex align-items-center">
+                                          <b>Chủ đề</b><span style={{ color: 'red' }}>&nbsp;*</span>
+                                        </div>
+                                        <div className="col">
+                                          <Field as="select" className="custom-select" name="categoryId"
+                                            onChange={(e) => handleSelectChange(e, setFieldValue)}>
+                                            <option value="" disabled>--Option Select--</option>
+                                            {categorys.map((value) => (
+                                              <option key={value.id} value={value.id}>
+                                                {value.typeCategory}
+                                              </option>
+                                            ))}
+                                          </Field>
+                                          <ErrorMessage name="categoryId" component='p'
+                                            className="form-err"
+                                            style={{ margin: '0', color: 'red' }}
+                                          />
+                                        </div>
+                                      </div>
+                                      <div className="row mt-3">
+                                        <div className="col-2
+                                   d-flex align-items-center">
+                                          <b>Topic</b><span
+                                            style={{ color: 'red' }}>&nbsp;*</span>
+                                        </div>
+                                        <div className="col">
+                                          {topic.map((value) => (
+                                            <div className="form-check form-check-inline"
+                                              key={value.id}>
+                                              <Field className="form-check-input"
+                                                id={"value" + value.id}
+                                                type="radio"
+                                                name="topicId"
+                                                value={"" + value.id} />
+                                              <label className="form-check-label"
+                                                htmlFor={"value" + value.id}>{value.nameTopic}</label>
+                                            </div>
+                                          ))}
+                                          <ErrorMessage name="topicId" component='p'
+                                            className="form-err"
+                                            style={{ margin: '0', color: 'red' }} />
+                                        </div>
+                                      </div>
+                                      <div className="row mt-3">
+                                        <div className="col-2
+                                   d-flex align-items-center">
+                                          <b>Ngày tạo</b><span
+                                            style={{ color: 'red' }}>&nbsp;*</span>
+                                        </div>
+                                        <div className="col">
+                                          <Field style={{ padding: '0.375rem 0.3rem 0.375rem 0.75rem' }} type="date" className="form-control"
+                                            name="createDay" />
+                                          <ErrorMessage name="createDay" component='p'
+                                            className="form-err"
+                                            style={{ margin: '0', color: 'red' }} />
+                                        </div>
+                                      </div>
+                                      <div className="row mt-3">
+                                        <div className="col-2
+                                   d-flex align-items-center">
+                                          <b>Mô tả</b><span
+                                            style={{ color: 'red' }}>&nbsp;*</span>
+                                        </div>
+                                        <div className="col">
+                                          <ReactQuill
+                                            modules={module}
+                                            name="description"
+                                            theme="snow"
+                                            placeholder='Nhập nội dung blog'
+                                            className='h-50 mb-16'
+                                            value={value}
+                                            onChange={setValue}
+                                          />
+                                          <ErrorMessage name="description " component='p'
+                                            className="form-err"
+                                            style={{ margin: '0', color: 'red' }} />
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
-                                  <div className="row mt-3">
-                                    <div className="col-2
-                                   d-flex align-items-center">
-                                      <b>Link Url</b><span
-                                        className="red-dot">&nbsp;*</span>
-                                    </div>
-                                    <div className="col">
-                                      <Field type="text" className="form-control"
-                                        name="imageBlog" value={imgUrls} />
-                                      <ErrorMessage name="imageBlog" component='p'
-                                        className="form-err"
-                                        style={{ margin: '0', color: 'red' }} />
-                                    </div>
+                                </div>
+                                <div className="d-flex justify-content-center mt-3">
+                                  <div>
+                                    <button type="submit" className="btn__add-new mr-2">
+                                      Lưu lại
+                                    </button>
                                   </div>
-                                  <div className="row mt-3">
-                                    <div className="col-2
-                                   d-flex align-items-center">
-                                      <b>Tên Blog</b><span
-                                        className="red-dot">&nbsp;*</span>
-                                    </div>
-                                    <div className="col">
-                                      <Field type="text" className="form-control"
-                                        name="title" />
-                                      <ErrorMessage name="title" component='p'
-                                        className="form-err"
-                                        style={{ margin: '0', color: 'red' }} />
-                                    </div>
-                                  </div>
-                                  <div className="row mt-3">
-                                    <div className="col-2
-                                   d-flex align-items-center">
-                                      <b>Nội dung</b><span
-                                        className="red-dot">&nbsp;*</span>
-                                    </div>
-                                    <div className="col">
-                                      <Field type="text" className="form-control"
-                                        name="content" />
-                                      <ErrorMessage name="content" component='p'
-                                        className="form-err"
-                                        style={{ margin: '0', color: 'red' }} />
-                                    </div>
-                                  </div>
-                                  <Field type="hidden" className="form-control"
-                                    name="viewer" />
-                                  <div className="row mt-3">
-                                    <div className="col-2 d-flex align-items-center">
-                                      <b>Chủ đề</b><span className="red-dot">&nbsp;*</span>
-                                    </div>
-                                    <div className="col">
-                                      <Field as="select" className="custom-select" name="categoryId"
-                                        onChange={(e) => handleSelectChange(e, setFieldValue)}>
-                                        <option value="" disabled>--Option Select--</option>
-                                        {categorys.map((value) => (
-                                          <option key={value.id} value={value.id}>
-                                            {value.typeCategory}
-                                          </option>
-                                        ))}
-                                      </Field>
-                                      <ErrorMessage name="categoryId" component='p'
-                                        className="form-err"
-                                        style={{ margin: '0', color: 'red' }}
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="row mt-3">
-                                    <div className="col-2
-                                   d-flex align-items-center">
-                                      <b>Topic</b><span
-                                        className="red-dot">&nbsp;*</span>
-                                    </div>
-                                    <div className="col">
-                                      {topic.map((value) => (
-                                        <div className="form-check form-check-inline"
-                                          key={value.id}>
-                                          <Field className="form-check-input"
-                                            id={"value" + value.id}
-                                            type="radio"
-                                            name="topicId"
-                                            value={"" + value.id} />
-                                          <label className="form-check-label"
-                                            htmlFor={"value" + value.id}>{value.nameTopic}</label>
-                                        </div>
-                                      ))}
-                                      <ErrorMessage name="topicId" component='p'
-                                        className="form-err"
-                                        style={{ margin: '0', color: 'red' }} />
-                                    </div>
-                                  </div>
-                                  <div className="row mt-3">
-                                    <div className="col-2
-                                   d-flex align-items-center">
-                                      <b>Ngày tạo</b><span
-                                        className="red-dot">&nbsp;*</span>
-                                    </div>
-                                    <div className="col">
-                                      <Field type="date" className="form-control"
-                                        name="createDay" />
-                                      <ErrorMessage name="createDay" component='p'
-                                        className="form-err"
-                                        style={{ margin: '0', color: 'red' }} />
-                                    </div>
-                                  </div>
-                                  <div className="row mt-3">
-                                    <div className="col-2
-                                   d-flex align-items-center">
-                                      <b>Mô tả</b>
-                                    </div>
-                                    <div className="col">
-                                      <ReactQuill
-                                        modules={module}
-                                        name="description"
-                                        theme="snow"
-                                        placeholder='Nhập nội dung blog'
-                                        className='h-50 mb-16'
-                                        value={value}
-                                        onChange={setValue}
-                                      />
-                                      <ErrorMessage name="description " component='p'
-                                        className="form-err"
-                                        style={{ margin: '0', color: 'red' }} />
-                                    </div>
+                                  <div>
+                                    <Link to="/movie">
+                                      <button type="button" className="btn__add-new">Quay lại
+                                      </button>
+                                    </Link>
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                            <div className="d-flex justify-content-center mt-3">
-                              <div>
-                                <button type="submit" className="btn__add-new mr-2">
-                                  Lưu lại
-                                </button>
-                              </div>
-                              <div>
-                                <Link to="/movie">
-                                  <button type="button" className="btn__add-new">Quay lại
-                                  </button>
-                                </Link>
-                              </div>
-                            </div>
+                              <div className="col-2"></div>
+                            </Form>
                           </div>
-                          <div className="col-2"></div>
-                        </Form>
-                      </div>
-                    )}
-                  >
-                  </Formik>
+                        )}
+                      >
+                      </Formik>
+                    </div>
+                  </section>
                 </div>
-              </section>
+              </div>
             </div>
-          </div>
+          </main>
         </div>
-      </main>
+
+      </div>
     </>
   )
 }
