@@ -8,6 +8,7 @@ import { format } from 'date-fns';
 import { getAllCategory } from '../service/Category'
 import MyFacebookComments from './MyFacebookComments'
 import { getAllTopic } from '../service/TopicService'
+import { checkFavoriteCount, getCountAndAddFavorite } from '../service/Favorite'
 
 
 const DetailBlog = () => {
@@ -17,9 +18,16 @@ const DetailBlog = () => {
     const [topic, setTopic] = useState();
     const [listSearch, setListSearch] = useState();
     const [idTopic, setIdTopic] = useState();
+    const [count, setCount] = useState();
+    const [idUser, setIdUser] = useState();
+    const [checkFavorite, setCheckFavorite] = useState();
     const native = useNavigate()
     const param = useParams();
-    const { a } = param;
+    const { id } = param;
+
+    const handleId = (id) => {
+        setIdUser(id);
+    }
 
     useEffect(() => {
         if (blog) {
@@ -30,7 +38,6 @@ const DetailBlog = () => {
     useEffect(() => {
         if (idCate) {
             getAllTopic(idCate).then(res => {
-                console.log(res);
                 setTopic(res)
             })
         }
@@ -50,7 +57,7 @@ const DetailBlog = () => {
 
     useEffect(() => {
         if (listSearch) {
-            native("/findBlogByTopic", { state: { blog: listSearch, idCate }})
+            native("/findBlogByTopic", { state: { blog: listSearch, idCate } })
         }
     }, [listSearch])
 
@@ -61,7 +68,20 @@ const DetailBlog = () => {
         })
     }
 
-   
+    const onHandleFavorite = (id, idUser) => {
+        getCountAndAddFavorite(id, idUser).then(res => {
+            setCount(res)
+        })
+    }
+
+    useEffect(() => {
+        if (idUser) {
+            checkFavoriteCount(idUser, id).then(res => {
+                console.log(res);
+                setCheckFavorite(res)
+            })
+        }
+    }, [count, idUser])
 
     if (!blog || !categorys || !topic) return (
         <div class="main">
@@ -86,7 +106,7 @@ const DetailBlog = () => {
     )
     return (
         <>
-            <Header />
+            <Header handleId={handleId} countFavorite={count} />
             <div className="post-wrapper pt-100">
                 <section className="post-area">
                     <div className="container">
@@ -104,12 +124,10 @@ const DetailBlog = () => {
 
                                         </div>
                                     </div>
-                                    <div className="single-post-content">
-                                        {blog.description}
-                                    </div>
+                                    <p id='contentHTML' className="single-post-content" style={{ img: { width: '50%' } }} dangerouslySetInnerHTML={{ __html: blog.description }} />
                                     <section className="comment-sec-area pt-80 pb-80">
                                         <div className="container">
-                                            <MyFacebookComments id={a} />
+                                            <MyFacebookComments id={id} />
                                             <div className="fb-comments" data-href="https://hocweb90ngay.com" data-width={1000} data-numposts={5} />
                                         </div>
                                     </section>
@@ -123,12 +141,19 @@ const DetailBlog = () => {
                                         {blog.title}
                                     </p>
                                     <div className="social-link">
-                                        <a href="#"><button className="btn"><i class="far fa-star"></i> Favorite</button></a>
+                                        <a onClick={() => onHandleFavorite(blog.id, idUser)} >
+                                            {checkFavorite == 1 ?
+                                                <button style={{ background: '#7979ff' }} className="btn">
+                                                    <i class="far fa-star"></i> <span style={{color:'red'}}>Favorite</span> </button> :
+                                                <button className="btn">
+                                                    <i class="far fa-star"></i> Favorite</button>
+                                            }
+                                        </a>
                                         <a href="#"><button className="btn"><i className="fa fa-twitter" aria-hidden="true" /> follow</button></a>
                                     </div>
                                 </div>
                                 <div className="single_widget cat_widget">
-                                    <h4 style={{ fontSize: '18px' }} className="text-uppercase pb-20 d-flex justify-content-center">Những ngôn ngữ liên quan</h4>
+                                    <h4 style={{ fontSize: '18px' }} className="text-uppercase pb-20 d-flex justify-content-center">Những công nghệ liên quan</h4>
                                     <ul>
                                         {
                                             topic.map(value => (

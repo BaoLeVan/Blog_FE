@@ -1,7 +1,12 @@
 import axios from "axios";
 
-export const getAllBlog = async () => {
-    const res = await axios.get("http://localhost:8080/api/blog")
+export const getAllBlog = async (page,search) => {
+    const res = await axios.get(`http://localhost:8080/api/blog/admin/manageBlog?page=${page}&id=${search}`)
+    return res.data;
+}
+
+export const getPageBlog = async (page) => {
+    const res = await axios.get(`http://localhost:8080/api/blog?page=${page}`)
     return res.data;
 }
 
@@ -9,7 +14,6 @@ export const getBlogsMaxView = async () => {
     const res = await axios.get("http://localhost:8080/api/blog/maxBlog")
     return res.data;
 }
-
 
 export const getBlogById = async (id) => {
     const res = await axios.get(`http://localhost:8080/api/blog/detail/${id}`)

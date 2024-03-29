@@ -3,9 +3,9 @@ import '../ui/css/Main.css'
 import '../ui/css/Carosel.css'
 import Header from './Header'
 import Footer from './Footer'
-import { getAllBlog, getBlogHighView, getListBlogCurrent } from '../service/BlogService'
+import { getAllBlog, getBlogHighView, getListBlogCurrent, getPageBlog } from '../service/BlogService'
 import { format } from 'date-fns';
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -15,6 +15,14 @@ const HomePage = () => {
   const [blogs, setBlogs] = useState();
   const [blogHighView, setBlogHighView] = useState();
   const [blogCurrent, setBlogCurrent] = useState();
+  const [idUser, setIdUser] = useState();
+  const location = useLocation();
+  const data = location.state?.data || [];
+  const [check, setCheck] = useState(data || "");
+
+  const handleId = (id) => {
+    setIdUser(id);
+  }
 
   const settings = {
     infinite: true,
@@ -26,8 +34,8 @@ const HomePage = () => {
   };
 
   useEffect(() => {
-    getAllBlog().then(res => {
-      setBlogs(res)
+    getPageBlog(0).then(res => {
+      setBlogs(res.content)
     })
     getBlogHighView().then(res => {
       setBlogHighView(res)
@@ -37,7 +45,6 @@ const HomePage = () => {
     })
   }, [])
 
-  
 
   if (!blogs || !blogHighView || !blogCurrent) return (
     <div class="main">
@@ -64,15 +71,13 @@ const HomePage = () => {
   return (
     <>
       <div>
-        <Header />
-        {/* start banner Area */}
+        <Header handleId={handleId} check={check} />
         <header className="masthead">
           <div className="container">
             <div className="masthead-subheading">Chào mừng bạn tới Blog của tôi!</div>
             <div className="masthead-heading text-uppercase">It's Nice To Meet You</div>
           </div>
         </header>
-        {/* Blog Noi Bat */}
         <section style={{ padding: '50px 0' }} className="category-area" id="news">
           <div className="container">
             <div className="row d-flex justify-content-center">
@@ -90,7 +95,7 @@ const HomePage = () => {
                     <img style={{ width: '320px', height: '250px' }} src={value.imageBlog} alt="img1" />
                     <p style={{ marginBottom: '5px' }} >{format(new Date(value.createDay), 'dd MMM, yyyy')}</p>
                     <div style={{ width: '300px', textAlign: 'center' }}>
-                      <Link style={{ fontWeight: '700',color:'#222',fontSize:'18px' }} to={`/detail/${value.id}`} >{value.title}</Link>
+                      <Link style={{ fontWeight: '700', color: '#222', fontSize: '18px' }} to={`/detail/${value.id}`} >{value.title}</Link>
                     </div>
                   </div>
                 ))
@@ -115,7 +120,7 @@ const HomePage = () => {
               {blogs.map(value => (
                 <div className="col-lg-6 ">
                   <div key={value.id} className="single-travel media pb-60">
-                    <img style={{height:'auto',width:'37%'}} className="img-fluid d-flex mr-2 col-3" src={value.imageBlog} alt />
+                    <img style={{ height: 'auto', width: '37%' }} className="img-fluid d-flex mr-2 col-3" src={value.imageBlog} alt />
                     <div className="dates ml-20">
                       <span>{format(new Date(value.createDay), 'dd MMM, yyyy')}</span>
                     </div>
@@ -123,8 +128,8 @@ const HomePage = () => {
                       <h4 className="mt-0"><Link className='hover--a format-content-title' to={`/detail/${value.id}`}>{value.title}</Link></h4>
                       <p className='format-content'>{value.content}</p>
                       <div className="meta-bottom d-flex justify-content-between">
-                        <p style={{fontSize:'0.8rem'}} ><i class="far fa-eye"></i><span className="lnr lnr-heart ml-10" />{value.viewer} Viewer</p>
-                        <p style={{fontSize:'0.8rem'}} className='div-img'><span className="lnr lnr-bubble">{value.nameUser}</span><img className="image--user ml-5" src={value.imageUser} alt /></p>
+                        <p style={{ fontSize: '0.8rem' }} ><i class="far fa-eye"></i><span className="lnr lnr-heart ml-10" />{value.viewer} Viewer</p>
+                        <p style={{ fontSize: '0.8rem' }} className='div-img'><span className="lnr lnr-bubble">{value.nameUser}</span><img className="image--user ml-5" src={value.imageUser} alt /></p>
                       </div>
                     </div>
                   </div>
@@ -150,19 +155,15 @@ const HomePage = () => {
             <div className="row">
               {
                 blogCurrent.map(value => (
-                  <div className="col-lg-3 col-md-6 single-fashion">
-                    <img style={{ height: '176px', width: '255px' }} src={value.imageBlog} alt />
-                    <div style={{ margin: "10px 0" }}>
-                      <span className="date">{format(new Date(value.createDay), 'dd MMM, yyyy')}</span>
+                  <div className="card1 col-lg-3 col-md-6 ">
+                    <div style={{overflow:'hidden'}} className="card1-image">
+                      <img style={{ height: '176px', width: '100%' }} src={value.imageBlog} alt />
                     </div>
-                    <h4><Link style={{ fontSize: '20px' }} className='format-content-title hover--a' to={`/detail/${value.id}`} >{value.title}</Link></h4>
-                    <p className='format-content'>
+                    <Link to={`/detail/${value.id}`} className="card1-title format-content-title">{value.title}</Link>
+                    <p className="card1-body format-content">
                       {value.content}
                     </p>
-                    <div className="meta-bottom d-flex justify-content-between">
-                      <p style={{fontSize:'0.8rem'}}><i class="far fa-eye"></i><span className="lnr lnr-heart" /> {value.viewer} Viewer</p>
-                      <p style={{fontSize:'0.8rem'}} className='div-img'><span className="lnr lnr-bubble">{value.nameUser}</span><img className="image--user ml-5" src={value.imageUser} alt /></p>
-                    </div>
+                    <p className="footer1">Viết bởi <span className="by-name1">{value.nameUser}</span> on <span className="date1">{format(new Date(value.createDay), 'dd MMM, yyyy')}</span></p>
                   </div>
                 ))
               }
