@@ -87,7 +87,7 @@ a:hover {
     outline: 0
 }
 
-.card-panel {
+.card1-panel {
     margin: 0;
     padding: 60px
 }
@@ -2903,4 +2903,59 @@ header.masthead {
       line-height: 4.5rem;
       margin-bottom: 4rem;
     }
+  }
+
+  #contentHTML > p > span > img {
+    width: 90%;
+  }
+
+  #contentHTML > p > img {
+    width: 90%;
+  }
+
+  .card1 {
+    padding: 20px;
+    width: 290px;
+    min-height: 370px;
+    border-radius: 20px;
+    background: #e8e8e8;
+    box-shadow: 5px 5px 6px #dadada,
+                 -5px -5px 6px #f6f6f6;
+    transition: 0.4s;
+  }
+  
+  .card1:hover {
+    translate: 0 -10px;
+  }
+  
+  .card1-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #2e54a7;
+    margin: 15px 0 0 10px;
+  }
+  
+  .card1-image {
+    min-height: 170px;
+    background-color: #c9c9c9;
+    border-radius: 15px;
+    box-shadow: inset 8px 8px 10px #c3c3c3,
+              inset -8px -8px 10px #cfcfcf;
+  }
+  
+  .card1-body {
+    margin: 13px 0 0 10px;
+    color: rgb(31, 31, 31);
+    font-size: 15px;
+  }
+  
+  .footer1 {
+    float: right;
+    margin: 28px 0 0 18px;
+    font-size: 13px;
+    color: #636363;
+  }
+  
+  .by-name1 {
+    font-weight: 700;
   }

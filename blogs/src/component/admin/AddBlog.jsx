@@ -40,6 +40,7 @@ const AddBlog = () => {
     [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
     [{ 'font': [] }],
     [{ 'align': [] }],
+    [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
   ];
 
   const initialValue = {
@@ -152,12 +153,19 @@ const AddBlog = () => {
                           data.imageBlog = imgUrls[0]
                           console.log(data);
                           addBlogByAdmin(data).then(res => {
+                            console.log(res);
                             Swal.fire({
                               title: "Blog đã được lưu thành công!",
-                              html: "Chuyển hướng màn hình sau <b></b>s.",
+                              html: "Chuyển hướng màn hình sau <b>2</b> giây.",
                               timer: 2000,
                               timerProgressBar: true,
-                            })
+                              willClose: () => {
+                                setTimeout(() => {
+                                  navigate("/manageBlog")
+                                }, 1000); // Chờ 2 giây trước khi chuyển hướng
+                              }
+                            });
+                            
                           })
                         }}
                         render={({

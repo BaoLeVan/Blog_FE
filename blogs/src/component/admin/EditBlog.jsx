@@ -49,6 +49,7 @@ const EditBlog = () => {
     [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
     [{ 'font': [] }],
     [{ 'align': [] }],
+    [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
   ];
 
   const module = {
@@ -166,7 +167,7 @@ const EditBlog = () => {
                             content: blog.content,
                             categoryId: blog.idCategory,
                             topicId: blog.idTopic,
-                            view: blog.viewer,
+                            viewer: blog.viewer,
                             userId: blog.idUser
                           }}
                           validationSchema={Yup.object(validationObject)}
@@ -174,14 +175,19 @@ const EditBlog = () => {
                             data.description = value
                             data.imageBlog = imgUrls
                             console.log(data);
-                            // editBlogByAdmin(data).then(res => {
-                            //   Swal.fire({
-                            //     title: "Blog đã được sửa thành công!",
-                            //     html: "Chuyển hướng màn hình sau <b></b>s.",
-                            //     timer: 2000,
-                            //     timerProgressBar: true,
-                            //   })
-                            // })
+                            editBlogByAdmin(data).then(res => {
+                              Swal.fire({
+                                title: "Blog đã được sửa thành công!",
+                                html: "Chuyển hướng màn hình sau <b>2</b> giây.",
+                                timer: 2000,
+                                timerProgressBar: true,
+                                willClose: () => {
+                                  setTimeout(() => {
+                                    navigate("/manageBlog")
+                                  }, 1000); // Chờ 2 giây trước khi chuyển hướng
+                                }
+                              });
+                            })
                           }}
                           render={({
                             setFieldValue
@@ -210,7 +216,7 @@ const EditBlog = () => {
                                             </div>
                                           </div>
                                         </div>
-                                        <Field type="text" className="form-control"
+                                        <Field type="hidden" className="form-control"
                                           name="imageBlog" value={imgUrls} />
                                         <div className="row mt-3">
                                           <div className="col-2
@@ -247,7 +253,7 @@ const EditBlog = () => {
                                             <b>Chủ đề</b><span style={{ color: 'red' }}>&nbsp;*</span>
                                           </div>
                                           <div className="col">
-                                            <Field as="select" className="custom-select" name=" "
+                                            <Field as="select" className="custom-select" name="categoryId"
                                               onChange={(e) => handleSelectChange(e, setFieldValue)}>
                                               <option value="" disabled>--Option Select--</option>
                                               {categorys.map((value) => (

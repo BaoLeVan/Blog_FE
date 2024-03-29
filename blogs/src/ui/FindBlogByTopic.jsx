@@ -19,6 +19,11 @@ const FindBlogByTopic = () => {
     const [idCate, setIdCate] = useState(idSearch || "");
     const [topic, setTopic] = useState();
     const [idTopic, setIdTopic] = useState();
+    const [idUser,setIdUser] = useState();
+
+    const handleId = (id) => {
+      setIdUser(id);
+    }
 
     useEffect(() => {
         if (idCate) {
@@ -31,7 +36,6 @@ const FindBlogByTopic = () => {
 
     const onFindBLog = (id) => {
         findBlogByTopic(0, id).then(res => {
-            console.log(res);
             setBlogs(res.content);
             setIdTopic(id);
             setTotalPages(res.totalPages);
@@ -72,7 +76,7 @@ const FindBlogByTopic = () => {
 
     return (
         <>
-            <Header />
+        <Header handleId={handleId} />
             <div className="post-wrapper pt-100">
                 <section className="post-area">
                     <div className="container">
@@ -128,8 +132,8 @@ const FindBlogByTopic = () => {
                                     <ul>
                                         {
                                             topic.map(value => (
-                                                <li>
-                                                    <a onClick={e => onFindBLog(value.id)}>{value.nameTopic} </a>
+                                                <li style={{cursor:'pointer'}}>
+                                                    <a style={{display:'block'}} onClick={e => onFindBLog(value.id)}>{value.nameTopic} </a>
                                                 </li>
 
                                             ))

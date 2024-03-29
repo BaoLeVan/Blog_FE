@@ -1,8 +1,26 @@
-import React from 'react'
+import React, { useState } from 'react'
 import '../ui/css/Login.css'
 import { Link } from 'react-router-dom'
 
 const Login = () => {
+const [account,setAccount] = useState({
+    account:"",
+    password:""
+});
+    const handleLogin =() => {
+
+    }
+
+
+    const onChangeAccount = (e) => {
+        const {name, value} = e.target;
+        setAccount((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+        console.log(account);
+    }
+
     return (
         <main className="main-content  mt-0">
             <div className="page-header align-items-start min-vh-100" style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1497294815431-9365093b7331?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1950&q=80")' }}>
@@ -36,19 +54,17 @@ const Login = () => {
                                 <div className="card-body">
                                     <form role="form" className="text-start">
                                         <div className="input-group input-group-outline my-3">
-                                            <label className="form-label">Tài khoản</label>
-                                            <input type="email" className="form-control" />
+                                            <input placeholder='Tài khoản' onChange={onChangeAccount} type="text" name='account' className="form-control" />
                                         </div>
-                                        <div className="input-group input-group-outline mb-3">
-                                            <label className="form-label">Mật khẩu</label>
-                                            <input type="password" className="form-control" />
+                                        <div className="input-group input-group-outline mb-3"> 
+                                            <input placeholder='Mật khẩu' onChange={onChangeAccount} type="password" name='password' className="form-control" />
                                         </div>
                                         <div className="form-check form-switch d-flex align-items-center mb-3">
                                             <input className="form-check-input" type="checkbox" id="rememberMe" defaultChecked />
                                             <label className="form-check-label mb-0 ms-3" htmlFor="rememberMe">Nhớ mật khẩu</label>
                                         </div>
                                         <div className="text-center">
-                                            <button type="button" className="btn bg-gradient-primary w-100 my-4 mb-2">Đăng nhập</button>
+                                            <button onClick={handleLogin} type="button" className="btn bg-gradient-primary w-100 my-4 mb-2">Đăng nhập</button>
                                         </div>
                                         <p className="mt-4 text-sm text-center">
                                             Chưa có tài khoản ?

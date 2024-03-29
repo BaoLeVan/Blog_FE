@@ -10,6 +10,14 @@ import Favorite from './ui/Favorite';
 import FindBlogByTopic from './ui/FindBlogByTopic';
 import ManageBlog from './component/admin/ManageBlog';
 import EditBlog from './component/admin/EditBlog';
+import Profile from './component/user/Profile';
+import UserAddBlog from './component/user/UserAddBlog';
+import SuccessPayment from './component/user/SuccessPayment';
+import Product from './component/product/Product';
+import Cart from './component/product/Cart';
+import DetailProduct from './component/product/DetailProduct';
+import PayCartFinish from './component/product/PayCartFinish';
+import HistoryProduct from './component/user/HistoryProduct';
 
 
 function App() {
@@ -23,10 +31,18 @@ function App() {
           <Route path={"/detail/:id"} element={<DetailBlog />} />
           <Route path={"/list/blog"} element={<ListAccount />} />
           <Route path={"/add/blog"} element={<AddBlog />} />
-          <Route path={"/favorite"} element={<Favorite />} />
           <Route path={"/findBlogByTopic"} element={<FindBlogByTopic />} />
           <Route path={"/manageBlog"} element={<ManageBlog />} />
           <Route path={"/editBlog/:id"} element={<EditBlog/>} />
+          <Route path={"/favorite"} element={<Favorite/>} />
+          <Route path={"/profile"} element={<Profile />} />
+          <Route path={"/user/addBlog"} element={<UserAddBlog/>} />
+          <Route path={`/payment/:id`} element={<SuccessPayment/>} />
+          <Route path={`/product`} element={<Product/>} />
+          <Route path={'/cart'} element={<Cart/>} /> 
+          <Route path={'/detailProduct/:id'} element={<DetailProduct/>} /> 
+          <Route path={'/paymentCart/:id'} element={<PayCartFinish/>} />
+          <Route path={'/historyProduct'} element={<HistoryProduct/>}  />
         </Routes>
       </BrowserRouter>
     </>
