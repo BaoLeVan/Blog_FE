@@ -19,7 +19,6 @@ const Profile = () => {
             getUserById(idUser).then(res => {
                 setUser(res);
             })
-            console.log(idUser)
             getBlogByUserId(0, idUser).then(res => {
                 setBlog(res.content);
             })

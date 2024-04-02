@@ -38,7 +38,7 @@ const AddProduct = () => {
     const validationObject = {
         content: Yup.string().required("Tên không được để trống").min(2, "Tên Blog ít nhất 2 ký tự").max(255, "Tên Blog tối đa 255 ký tự"),
         nameProduct: Yup.string().required("Tên không được để trống").min(2, "Tên Blog ít nhất 2 ký tự").max(255, "Tên Blog tối đa 255 ký tự"),
-        typeProductId: Yup.string().required("Vui lòng chọn ít nhất một loại sản phẩm"),
+        typeProductId: Yup.number().required("Vui lòng chọn ít nhất một loại sản phẩm"),
         price: Yup.number().required("Vui lòng nhập giá tiền").min(0, "Nhập số dương"),
         description: Yup.string().max(65535, "Nội dung tối đa 65535 ký tự").required("Vui lòng nhập mô tả"),
         quantity: Yup.number().required("Vui lòng nhập số lượng").min(0, "Nhập số dương"),

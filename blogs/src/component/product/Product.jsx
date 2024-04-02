@@ -9,7 +9,7 @@ import { addToCart, getCountCart } from '../../service/Cart'
 import MySwal from "sweetalert2";
 import { format } from 'date-fns';
 
-const Product = () => {
+const Product = (props) => {
     const [idUser, setIdUser] = useState();
     const [products, setProducts] = useState();
     const location = useLocation();
