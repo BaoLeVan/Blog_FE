@@ -8,7 +8,7 @@ import 'react-quill/dist/quill.snow.css';
 import '../../ui/css/Button.css'
 import { getDownloadURL, listAll, ref, uploadBytes } from 'firebase/storage';
 import storage from '../../config/firebase'
-import { addBlogByAdmin, addProductByAdmin, editProductByAdmin } from '../../service/Admin';
+import { addBlogByAdmin, addProductByAdmin, editProductByAdmin, getProductByAdmin } from '../../service/Admin';
 import { getAllTypeProduct, getProductById } from '../../service/Product';
 
 
@@ -20,9 +20,10 @@ const EditProduct = () => {
     const [imgUpload, setImgUpload] = useState(null);
     const [imgUrls, setImgUrls] = useState([]);
     const [product, setProduct] = useState();
+
     useEffect(() => {
         const { id } = param;
-        getProductById(id).then(res => {
+        getProductByAdmin(id).then(res => {
             console.log(res);
             setProduct(res)
         })
@@ -62,6 +63,12 @@ const EditProduct = () => {
         }
     }, [imgUpload]);
 
+    useEffect(() => {
+        if (product) {
+          setImgUrls(product.imageProduct)
+        }
+      }, [product, imgUrls])
+
     const handleSelectFiles = (e) => {
         const files = Array.from(e.target.files);
         console.log(files);
@@ -75,7 +82,7 @@ const EditProduct = () => {
     };
 
 
-    if (!typeProduct) return (
+    if (!typeProduct || !product) return (
         <div class="main">
             <div class="mario_bin"></div>
             <div class="mario_run">
@@ -113,19 +120,19 @@ const EditProduct = () => {
                                             <h1 style={{ paddingTop: "20px", display: 'flex', justifyContent: 'center' }}>Thêm mới Blog</h1>
                                             <Formik initialValues={
                                                 {
-                                                    id: product.id,
+                                                    idProduct: product.id,
                                                     content: product.content,
                                                     description: product.description,
                                                     nameProduct: product.nameProduct,
-                                                    imageProduct: product.imageProduct,
+                                                    imageProduct: imgUrls,
                                                     price: product.price,
                                                     quantity: product.quantity,
-                                                    typeProductId: product.typeProduct.id
+                                                    typeProductId: product.typeProductId
                                                 }
                                             }
                                                 validationSchema={Yup.object(validationObject)}
                                                 onSubmit={(data) => {
-                                                    data.imageProduct = imgUrls[0]
+                                                    data.imageProduct = imgUrls
                                                     console.log(data);
                                                     editProductByAdmin(data).then(res => {
                                                         console.log(res);
@@ -153,8 +160,7 @@ const EditProduct = () => {
                                                                     <div className="row mt-2 d-flex justify-content-center">
                                                                         <div className="col-12">
                                                                             <div className="row mt-3">
-                                                                                <div className="col-2
-                                   d-flex align-items-center">
+                                                                                <div className="col-2 d-flex align-items-center">
                                                                                     <b>Ảnh Blog</b><span
                                                                                         style={{ color: 'red' }}>&nbsp;*</span>
                                                                                 </div>
@@ -166,7 +172,6 @@ const EditProduct = () => {
                                                                                             type="file"
                                                                                             id="inputPoster"
                                                                                             accept="image/*"
-                                                                                            required={true}
                                                                                         />
                                                                                     </div>
                                                                                 </div>

@@ -47,12 +47,12 @@ const SideBar = () => {
                             </Link>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link text-white " href="../pages/notifications.html">
+                            <Link className="nav-link text-white " to={"/manageAccount"}>
                                 <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                     <i className="material-icons opacity-10">notifications</i>
                                 </div>
                                 <span className="nav-link-text ms-1">Quản Lý Tài Khoản</span>
-                            </a>
+                            </Link>
                         </li>
                         <li className="nav-item">
                             <Link className="nav-link text-white " to="/">

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
+import '../../ui/css/Profile.css'
 import Header from '../../ui/Header'
 import Footer from '../../ui/Footer'
 import { getProductHistory, getUserById } from '../../service/User'
 import { Link } from 'react-router-dom'
 
-const HistoryProduct = () => {
+const DetailsProductOrder = () => {
     const [idUser, setIdUser] = useState();
     const [user, setUser] = useState();
     const [status, setStatus] = useState(false);
@@ -108,53 +109,43 @@ const HistoryProduct = () => {
                         <div className="col-lg-8">
                             <div className="card">
                                 <div className="card-body">
-                                    <table className="table align-items-center mb-0">
-                                        <thead>
-                                            <tr>
-                                                <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Mã hóa đơn</th>
-                                                <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Ngày đặt</th>
-                                                <th className="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Trạng thái</th>
-                                                <th className="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Chức năng</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {
-                                                history.map((value, index) => (
-                                                    <tr>
-                                                        <td>
-                                                            <span className="text-secondary text-xs font-weight-bold">HD-{index + 1}</span>
-                                                        </td>
-                                                        <td>
-                                                            <p className="text-xs font-weight-bold mb-0">{value.createOrder}</p>
-                                                        </td>
-                                                        <td className="align-middle text-center text-sm">
+                                    <tbody>
+                                        {
+                                            listProduct.map(value => (
+                                                <tr>
+                                                    <td className="shoping__cart__item">
+                                                        <img style={{ height: '86px', width: '125px' }} src={value.imageProduct} alt />
+                                                        <h5>{value.nameProduct}</h5>
+                                                    </td>
+                                                    <td className="shoping__cart__price">
+                                                        {formatNumber(value.price)}đ
+                                                    </td>
+                                                    <td className="shoping__cart__quantity">
+                                                        <div className="quantity">
                                                             {
-                                                                value.confirm ?
-                                                                    <span className="badge badge-sm bg-gradient-defauts">Chờ xác nhận</span>
-                                                                    :
-                                                                     <span className="badge badge-sm bg-gradient-success">Chờ lấy hàng</span>
+                                                                value.quantity > 1 ?
+                                                                    <button onClick={() => onMinusQuanity(value)} class="button--minus ">
+                                                                        -
+                                                                    </button> : <span></span>
                                                             }
-                                                        </td>
-                                                        <td className="align-middle text-center">
-                                                            <Link className="text-secondary text-xs font-weight-bold" to={""}>Xem chi tiết</Link>
-                                                        </td>
-                                                    </tr>
-                                                ))
-                                            }
-                                        </tbody>
-                                    </table>
-                                    {
-                                        page < totalPages && (
-                                            <div className='row d-flex justify-content-center mt-4'>
-                                                <a style={{
-                                                    fontSize: '9px', borderTop: " #62bdfc 0.5px solid",
-                                                    color: "black",
-                                                    padding: " 0 7px",
-                                                    fontSize: "10px", textAlign: 'center'
-                                                }} className="col-2 primary-btn load-more mt-60" onClick={() => setPage(page + 1)} >{loading ? "Loading...." : "Show more"}</a>
-                                            </div>
-                                        )
-                                    }
+                                                            <div className="pro-qty">
+                                                                <input type="text" value={value.quantity} />
+                                                            </div>
+                                                            <button onClick={() => onAddQuanity(value)} class="button--add ">
+                                                                +
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                    <td className="shoping__cart__total">
+                                                        {formatNumber(value.price * value.quantity)}đ
+                                                    </td>
+                                                    <td className="shoping__cart__item__close">
+                                                        <span onClick={() => onHandleDeleteProduct(value)} className="icon_close" ><i class="fas fa-times-circle"></i></span>
+                                                    </td>
+                                                </tr>
+                                            ))
+                                        }
+                                    </tbody>
                                 </div>
                             </div>
                         </div>
@@ -162,9 +153,8 @@ const HistoryProduct = () => {
                 </div>
             </div>
             <Footer />
-
         </>
     )
 }
 
-export default HistoryProduct
+export default DetailsProductOrder

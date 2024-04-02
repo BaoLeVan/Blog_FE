@@ -21,6 +21,7 @@ import HistoryProduct from './component/user/HistoryProduct';
 import ManageProduct from './component/admin/ManageProduct';
 import AddProduct from './component/admin/AddProduct';
 import EditProduct from './component/admin/EditProduct';
+import ManageAccount from './component/admin/ManageAccount';
 
 
 function App() {
@@ -41,7 +42,7 @@ function App() {
           <Route path={"/profile"} element={<Profile />} />
           <Route path={"/user/addBlog"} element={<UserAddBlog/>} />
           <Route path={`/payment/:id`} element={<SuccessPayment/>} />
-          <Route path={`/product`} element={<Product/>} />
+          <Route path={`/product`} element={<Product />} />
           <Route path={'/cart'} element={<Cart/>} /> 
           <Route path={'/detailProduct/:id'} element={<DetailProduct/>} /> 
           <Route path={'/paymentCart/:id'} element={<PayCartFinish/>} />
@@ -49,6 +50,7 @@ function App() {
           <Route path={'/manageProduct'} element={<ManageProduct/>} />
           <Route path={'/addProduct'}  element={<AddProduct/>} /> 
           <Route path={'/editProduct/:id'} element={<EditProduct/>} />
+          <Route path={'/manageAccount'} element={<ManageAccount/>} />
         </Routes>
       </BrowserRouter>
     </>

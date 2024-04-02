@@ -52,7 +52,6 @@ export async function getAllProductByAdmin(page, name) {
 
 export async function addProductByAdmin(product) {
     const token = localStorage.getItem("token")
-    console.log(token);
     const res = await axios.post(`http://localhost:8080/api/admin/addProduct`, product, {
         headers: {
             Authorization: `Bearer ${token}`
@@ -63,8 +62,42 @@ export async function addProductByAdmin(product) {
 
 export async function editProductByAdmin(product) {
     const token = localStorage.getItem("token")
-    console.log(token);
     const res = await axios.patch(`http://localhost:8080/api/admin/editProduct`, product, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+    return res.data;
+}
+
+export const getProductByAdmin = async (id) => {
+    const res = await axios.get(`http://localhost:8080/api/product/${id}`)
+    return res.data;
+}
+
+export async function deleteProductByAdmin(product) {
+    const token = localStorage.getItem("token")
+    const res = await axios.delete(`http://localhost:8080/api/admin/deleteProduct/${product.id}`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+    return res.data;
+}
+
+export async function getAllAccountByAdmin(page, name) {
+    const token = localStorage.getItem("token")
+    const res = await axios.get(`http://localhost:8080/api/admin/getAllAccount?page=${page}&name=${name}`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+    return res.data;
+}
+
+export async function deleteAccountByAdmin(account) {
+    const token = localStorage.getItem("token")
+    const res = await axios.delete(`http://localhost:8080/api/admin/deleteAccount/${account.id}`, {
         headers: {
             Authorization: `Bearer ${token}`
         }
