@@ -1,7 +1,12 @@
 import axios from "axios";
 
-export const getAllBlog = async (page,search) => {
-    const res = await axios.get(`http://localhost:8080/api/blog/admin/manageBlog?page=${page}&id=${search}`)
+export async function getAllBlog(page,search){
+    const token = localStorage.getItem("token")
+    const res = await axios.get(`http://localhost:8080/api/admin/manageBlog?page=${page}&id=${search}`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
     return res.data;
 }
 
@@ -34,3 +39,4 @@ export const findBlogByTopic = async (page,id) => {
     const res = await axios.get(`http://localhost:8080/api/blog/findBlog?page=${page}&id=${id}`)
     return res.data;
 }
+

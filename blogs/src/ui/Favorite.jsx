@@ -37,27 +37,30 @@ const Favorite = () => {
         })
     }
 
-    // if (!blog) return (
-    //     <div class="main">
-    //         <div class="mario_bin"></div>
-    //         <div class="mario_run">
-    //             <div class="mario_run1"></div>
-    //         </div>
-    //         <div class="walls">
-    //             <div class="wall"></div>
-    //             <div class="wall"></div>
-    //             <div class="wall"></div>
-    //             <div class="wall"></div>
-    //             <div class="wall"></div>
-    //             <div class="wall"></div>
-    //             <div class="wall"></div>
-    //             <div class="wall"></div>
-    //             <div class="wall"></div>
-    //             <div class="wall"></div>
-    //         </div>
-    //         <div class="text"></div>
-    //     </div>
-    // )
+    if (!blog) return (
+        <>
+            <Header handleId={handleId} />
+            <div className="main">
+                <div className="mario_bin"></div>
+                <div className="mario_run">
+                    <div className="mario_run1"></div>
+                </div>
+                <div className="walls">
+                    <div className="wall"></div>
+                    <div className="wall"></div>
+                    <div className="wall"></div>
+                    <div className="wall"></div>
+                    <div className="wall"></div>
+                    <div className="wall"></div>
+                    <div className="wall"></div>
+                    <div className="wall"></div>
+                    <div className="wall"></div>
+                    <div className="wall"></div>
+                </div>
+                <div className="text"></div>
+            </div>
+        </>
+    )
     return (
         <>
             <Header handleId={handleId} />
@@ -70,63 +73,51 @@ const Favorite = () => {
                     </div>
                 </div>
             </section>
-            {blog &&
-                <div className="post-wrapper pt-100">
-                    <section className="post-area">
-                        <div className="container">
-                            <div className="row justify-content-center d-flex">
-                                <div className="col-lg-10">
-                                    <div className="post-lists">
-                                        {
-                                            blog.map(value => (
-                                                <div key={value.id} className="single-travel media pb-60">
-                                                    <img style={{ height: 'auto', width: '37%' }} className="img-fluid d-flex mr-2 col-3" src={value.imageBlog} alt />
-                                                    <div className="dates ml-20">
-                                                        <span>{format(new Date(value.createDay), 'dd MMM, yyyy')}</span>
-                                                    </div>
-                                                    <div className="media-body align-self-center">
-                                                        <h4 style={{ position: 'relative' }} className="mt-0 d-flex">
-                                                            <Link className='hover--a format-content-title' to={`/detail/${value.id}`}>{value.title}</Link>
-                                                            <span style={{ position: 'absolute', right: '0' }} ><i class="fas fa-trash-alt"></i></span>
-                                                        </h4>
-                                                        <p className='format-content'>{value.content}</p>
-                                                        <div className="meta-bottom d-flex justify-content-between">
-                                                            <p style={{ fontSize: '0.8rem' }} ><i class="far fa-eye"></i><span className="lnr lnr-heart ml-10" />{value.viewer} Viewer</p>
-                                                            <p style={{ fontSize: '0.8rem' }} className='div-img'><span className="lnr lnr-bubble">{value.nameUser}</span><img className="image--user ml-5" src={value.imageUser} alt /></p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            ))
-                                        }
-                                        <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                            <ReactPaginate
-                                                forcePage={currentPage}
-                                                breakLabel="..."
-                                                nextLabel="Trang Sau"
-                                                onPageChange={handlePageClick}
-                                                pageRangeDisplayed={2}
-                                                marginPagesDisplayed={2}
-                                                pageCount={totalPages}
-                                                previousLabel="Trang Trước"
-                                                pageClassName="page-item"
-                                                pageLinkClassName="page-link"
-                                                previousClassName="page-item"
-                                                previousLinkClassName="page-link"
-                                                nextClassName="page-item"
-                                                nextLinkClassName="page-link"
-                                                breakClassName="page-item"
-                                                breakLinkClassName="page-link"
-                                                containerClassName="pagination"
-                                                activeClassName="active"
-                                            />
+            <div className="post-wrapper pt-100">
+                <section className="post-area">
+                    <div className="container">
+                        <div className="row justify-content-center d-flex">
+                            {
+                                blog.map(value => (
+                                    <div style={{ margin: "0 20px 20px 20px" }} className="card1 col-lg-3 col-md-6 ">
+                                        <div style={{ overflow: 'hidden' }} className="card1-image">
+                                            <img style={{ height: '176px', width: '100%' }} src={value.imageBlog} alt />
                                         </div>
+                                        <Link to={`/detail/${value.id}`} className="card1-title format-content-title">{value.title}</Link>
+                                        <p className="card1-body format-content-new">
+                                            {value.content}
+                                        </p>
+                                        <p className="footer1">Viết bởi <span className="by-name1">{value.nameUser}</span> on <span className="date1">{format(new Date(value.createDay), 'dd MMM, yyyy')}</span></p>
                                     </div>
-                                </div>
-                            </div>
+                                ))
+                            }
+                            {blog > 6 ?
+                                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                    <ReactPaginate
+                                        forcePage={currentPage}
+                                        breakLabel="..."
+                                        nextLabel="Trang Sau"
+                                        onPageChange={handlePageClick}
+                                        pageRangeDisplayed={2}
+                                        marginPagesDisplayed={2}
+                                        pageCount={totalPages}
+                                        previousLabel="Trang Trước"
+                                        pageClassName="page-item"
+                                        pageLinkClassName="page-link"
+                                        previousClassName="page-item"
+                                        previousLinkClassName="page-link"
+                                        nextClassName="page-item"
+                                        nextLinkClassName="page-link"
+                                        breakClassName="page-item"
+                                        breakLinkClassName="page-link"
+                                        containerClassName="pagination"
+                                        activeClassName="active"
+                                    />
+                                </div> : <></>}
                         </div>
-                    </section>
-                </div>
-            }
+                    </div>
+                </section>
+            </div>
             <Footer />
         </>
     )

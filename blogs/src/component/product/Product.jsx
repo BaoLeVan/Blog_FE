@@ -2,11 +2,12 @@ import React, { useEffect, useRef, useState } from 'react'
 import Header from '../../ui/Header';
 import Footer from '../../ui/Footer';
 import '../../ui/css/Product.css'
-import { getAllProduct } from '../../service/Product';
+import { getAllProduct, getBlogForProduct } from '../../service/Product';
 import { Link, useLocation } from 'react-router-dom';
 import swal from 'sweetalert';
 import { addToCart, getCountCart } from '../../service/Cart'
 import MySwal from "sweetalert2";
+import { format } from 'date-fns';
 
 const Product = () => {
     const [idUser, setIdUser] = useState();
@@ -15,6 +16,7 @@ const Product = () => {
     const data = location.state?.data || [];
     const [checkPayment, setCheckPayment] = useState(data || "");
     const [countCartNew, setCountCartNew] = useState();
+    const [blog, setBlog] = useState();
 
 
 
@@ -41,6 +43,12 @@ const Product = () => {
         setIdUser(id);
     }
 
+    useEffect(() => {
+        getBlogForProduct().then(res => {
+            setBlog(res)
+        })
+    }, [])
+
     const onHandleAddProduct = (e) => {
         addToCart(e.id, idUser).then(res => {
             MySwal.fire({
@@ -58,7 +66,7 @@ const Product = () => {
         })
     }
 
-    if (!products) return (
+    if (!products || !blog) return (
         <div class="main">
             <div class="mario_bin"></div>
             <div class="mario_run">
@@ -81,7 +89,7 @@ const Product = () => {
     )
     return (
         <>
-            <Header handleId={handleId} countCartNew={countCartNew}/>
+            <Header handleId={handleId} countCartNew={countCartNew} />
             <>
                 <div className="header_section">
                     <div className="banner_section layout_padding">
@@ -167,7 +175,7 @@ const Product = () => {
                                 <div className="col-lg-3 col-md-4 col-sm-6">
                                     <div className="product__item">
                                         <div className="product__item__pic set-bg" >
-                                            <img style={{width:'100%',height:'95%'}} src={value.imageProduct} alt="" />
+                                            <img style={{ width: '100%', height: '95%' }} src={value.imageProduct} alt="" />
                                             <ul className="product__item__pic__hover">
                                                 <li><a ><i className="fa fa-heart" /></a></li>
                                                 <li><Link to={`/detailProduct/${value.id}`}><i className="fa fa-retweet" /></Link></li>
@@ -175,7 +183,7 @@ const Product = () => {
                                             </ul>
                                         </div>
                                         <div className="product__item__text">
-                                            <h6><a href="#">{value.nameProduct}</a></h6>
+                                            <h6><Link to={`/detailProduct/${value.id}`}>{value.nameProduct}</Link></h6>
                                             <h6>{formatNumber(value.price)}đ</h6>
                                         </div>
                                     </div>
@@ -185,6 +193,40 @@ const Product = () => {
                         </div>
                     </div>
                 </section>
+                {/* Blog Section Begin */}
+                <section className="from-blog spad">
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-lg-12">
+                                <div className="section-title from-blog__title">
+                                    <h2>From The Blog</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="row">
+                            {
+                                blog.map(value => (
+                                    <div className="col-lg-4 col-md-4 col-sm-6">
+                                        <div className="blog__item">
+                                            <div className="blog__item__pic">
+                                                <img style={{ height: '200px', width: '90%' }} src={value.imageBlog} alt />
+                                            </div>
+                                            <div className="blog__item__text">
+                                                <ul style={{padding:'0'}}>
+                                                    <li><i className="fa fa-calendar-o" /><i class="far fa-calendar-alt"></i> {format(new Date(value.createDay), 'dd MMM, yyyy')}</li>
+                                                    <li><i className="fa fa-comment-o" /> <i class="far fa-eye"></i><span className="lnr lnr-heart ml-10" />{value.viewer} Viewer</li>
+                                                </ul>
+                                                <Link style={{color:'black',fontWeight:'bold'}} className="card1-title ml-0" to={`/detail/${value.id}`}>{value.title}</Link>
+                                                <p className="format-content-new">{value.content}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))
+                            }
+                        </div>
+                    </div>
+                </section>
+
             </>
             <Footer />
         </>

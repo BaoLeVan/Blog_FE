@@ -35,7 +35,6 @@ const UserAddBlog = () => {
     }
 
     useEffect(() => {
-        console.log(idUser);
         if (idUser) {
             getUserById(idUser).then(res => {
                 setUser(res);
@@ -79,7 +78,6 @@ const UserAddBlog = () => {
         userId: idUser
     }
 
-    console.log(status);
     const module = {
         toolbar: toolbarOptions,
     }

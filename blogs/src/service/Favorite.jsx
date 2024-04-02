@@ -1,23 +1,44 @@
 import axios from "axios";
 
-export const getListFavorite = async (page,id) => {
-    const res = await axios.get(`http://localhost:8080/api/favorite?page=${page}&idUser=${id}`)
+export async function getListFavorite (page,id){
+    const token = localStorage.getItem("token")
+    const res = await axios.get(`http://localhost:8080/api/favorite?page=${page}&idUser=${id}`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
     return res.data;
 }
 
 
-export const getCountAndAddFavorite = async (idBlog,idUser) => {
-    const res = await axios.post(`http://localhost:8080/api/favorite/count/${idBlog}/${idUser}`)
+export async function getCountAndAddFavorite (idBlog,idUser){
+    const data = {idBlog ,idUser}
+    const token = localStorage.getItem("token")
+    const res = await axios.post(`http://localhost:8080/api/favorite/count`,data,{
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
     return res.data;
 }
 
-export const checkCount = async (idUser) => {
-    const res = await axios.get(`http://localhost:8080/api/favorite/checkCount/${idUser}`)
+export async function checkCount (idUser){
+    const token = localStorage.getItem("token")
+    const res = await axios.get(`http://localhost:8080/api/favorite/checkCount/${idUser}`,{
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
     return res.data;
 }
 
-export const checkFavoriteCount = async (idUser,idBlog) => {
-    const res = await axios.get(`http://localhost:8080/api/favorite/checkFavorite?idUser=${idUser}&idBlog=${idBlog}`)
+export async function checkFavoriteCount (idUser,idBlog){
+    const token = localStorage.getItem("token")
+    const res = await axios.get(`http://localhost:8080/api/favorite/checkFavorite?idUser=${idUser}&idBlog=${idBlog}`,{
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
     return res.data;
 }
 

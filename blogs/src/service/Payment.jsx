@@ -1,6 +1,11 @@
 import axios from "axios";
 
-export const getPayment = async (idUser,price) => {
-    const res = await axios.get(`http://localhost:8080/api/payment/createPay?idAccount=${idUser}&price=${price}`)
+export async function getPayment (idUser,price){
+    const token = localStorage.getItem("token")
+    const res = await axios.get(`http://localhost:8080/api/payment/createPay?idAccount=${idUser}&price=${price}`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
     return res.data;
 }

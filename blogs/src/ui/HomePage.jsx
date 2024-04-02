@@ -15,11 +15,14 @@ const HomePage = () => {
   const [blogs, setBlogs] = useState();
   const [blogHighView, setBlogHighView] = useState();
   const [blogCurrent, setBlogCurrent] = useState();
-  const [idUser, setIdUser] = useState();
+  const [idUser, setIdUser] = useState(localStorage.getItem("idUser"));
   const location = useLocation();
   const data = location.state?.data || [];
   const [check, setCheck] = useState(data || "");
-
+  const [totalPages, setTotalPages] = useState(0);
+  const [page, setPage] = useState(0);
+  const [loading, setLoading] = useState(false)
+  
   const handleId = (id) => {
     setIdUser(id);
   }
@@ -34,38 +37,49 @@ const HomePage = () => {
   };
 
   useEffect(() => {
-    getPageBlog(0).then(res => {
-      setBlogs(res.content)
-    })
     getBlogHighView().then(res => {
       setBlogHighView(res)
     })
     getListBlogCurrent().then(res => {
       setBlogCurrent(res);
     })
+    
   }, [])
 
-
-  if (!blogs || !blogHighView || !blogCurrent) return (
-    <div class="main">
-      <div class="mario_bin"></div>
-      <div class="mario_run">
-        <div class="mario_run1"></div>
+  useEffect(() => {
+    setLoading(true)
+    getPageBlog(page).then(res => {
+      console.log(res);
+      setLoading(false)
+      setBlogs(prev => prev ? [...prev, ...res.content] : [...res.content])
+      setTotalPages(res.totalPages)
+    })
+}, [page])
+  
+  console.log(blogs);
+  if (!blogHighView || !blogCurrent) return (
+    <>
+      <Header handleId={handleId} />
+      <div className="main">
+        <div className="mario_bin"></div>
+        <div className="mario_run">
+          <div className="mario_run1"></div>
+        </div>
+        <div className="walls">
+          <div className="wall"></div>
+          <div className="wall"></div>
+          <div className="wall"></div>
+          <div className="wall"></div>
+          <div className="wall"></div>
+          <div className="wall"></div>
+          <div className="wall"></div>
+          <div className="wall"></div>
+          <div className="wall"></div>
+          <div className="wall"></div>
+        </div>
+        <div className="text"></div>
       </div>
-      <div class="walls">
-        <div class="wall"></div>
-        <div class="wall"></div>
-        <div class="wall"></div>
-        <div class="wall"></div>
-        <div class="wall"></div>
-        <div class="wall"></div>
-        <div class="wall"></div>
-        <div class="wall"></div>
-        <div class="wall"></div>
-        <div class="wall"></div>
-      </div>
-      <div class="text"></div>
-    </div>
+    </>
   )
 
   return (
@@ -116,28 +130,39 @@ const HomePage = () => {
               </div>
             </div>
             <div className="row d-flex justify-content-center">
-
-              {blogs.map(value => (
-                <div className="col-lg-6 ">
-                  <div key={value.id} className="single-travel media pb-60">
-                    <img style={{ height: 'auto', width: '37%' }} className="img-fluid d-flex mr-2 col-3" src={value.imageBlog} alt />
-                    <div className="dates ml-20">
-                      <span>{format(new Date(value.createDay), 'dd MMM, yyyy')}</span>
-                    </div>
-                    <div className="media-body align-self-center">
-                      <h4 className="mt-0"><Link className='hover--a format-content-title' to={`/detail/${value.id}`}>{value.title}</Link></h4>
-                      <p className='format-content'>{value.content}</p>
-                      <div className="meta-bottom d-flex justify-content-between">
-                        <p style={{ fontSize: '0.8rem' }} ><i class="far fa-eye"></i><span className="lnr lnr-heart ml-10" />{value.viewer} Viewer</p>
-                        <p style={{ fontSize: '0.8rem' }} className='div-img'><span className="lnr lnr-bubble">{value.nameUser}</span><img className="image--user ml-5" src={value.imageUser} alt /></p>
+              {blogs && (
+                blogs.map(value => (
+                  <div className="col-lg-6 ">
+                    <div key={value.id} className="single-travel media pb-60">
+                      <img style={{ height: 'auto', width: '37%' }} className="img-fluid d-flex mr-2 col-3" src={value.imageBlog} alt />
+                      <div className="dates ml-20">
+                        <span>{format(new Date(value.createDay), 'dd MMM, yyyy')}</span>
+                      </div>
+                      <div className="media-body align-self-center">
+                        <h4 className="mt-0"><Link className='hover--a format-content-title' to={`/detail/${value.id}`}>{value.title}</Link></h4>
+                        <p className='format-content'>{value.content}</p>
+                        <div className="meta-bottom d-flex justify-content-between">
+                          <p style={{ fontSize: '0.8rem' }} ><i class="far fa-eye"></i><span className="lnr lnr-heart ml-10" />{value.viewer} Viewer</p>
+                          <p style={{ fontSize: '0.8rem' }} className='div-img'><span className="lnr lnr-bubble">{value.nameUser}</span><img className="image--user ml-5" src={value.imageUser} alt /></p>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))
+                ))
+              )
               }
-              <a href="#" className="primary-btn load-more pbtn-2 text-uppercase mx-auto mt-60">Load More </a>
-
+              {
+                page < totalPages && (
+                  <div className='row d-flex justify-content-center mt-4'>
+                    <a style={{
+                      fontSize: '9px', borderTop: " #62bdfc 0.5px solid",
+                      color: "black",
+                      padding: " 0 7px",
+                      fontSize: "10px", textAlign: 'center'
+                    }} className="col-2 primary-btn load-more mt-60" onClick={() => setPage(page + 1)} >{loading ? "Loading...." : "Show more"}</a>
+                  </div>
+                )
+              }
             </div>
           </div>
         </section>
@@ -156,11 +181,11 @@ const HomePage = () => {
               {
                 blogCurrent.map(value => (
                   <div className="card1 col-lg-3 col-md-6 ">
-                    <div style={{overflow:'hidden'}} className="card1-image">
+                    <div style={{ overflow: 'hidden' }} className="card1-image">
                       <img style={{ height: '176px', width: '100%' }} src={value.imageBlog} alt />
                     </div>
-                    <Link to={`/detail/${value.id}`} className="card1-title format-content-title">{value.title}</Link>
-                    <p className="card1-body format-content">
+                    <Link style={{ color: 'black' }} to={`/detail/${value.id}`} className="card1-title format-content-title">{value.title}</Link>
+                    <p className="card1-body format-content-new">
                       {value.content}
                     </p>
                     <p className="footer1">Viết bởi <span className="by-name1">{value.nameUser}</span> on <span className="date1">{format(new Date(value.createDay), 'dd MMM, yyyy')}</span></p>
