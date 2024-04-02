@@ -39,12 +39,12 @@ const SideBar = () => {
                             </Link>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link text-white " href="../pages/rtl.html">
+                            <Link className="nav-link text-white " to={"/manageProduct"}>
                                 <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                     <i className="material-icons opacity-10">format_textdirection_r_to_l</i>
                                 </div>
                                 <span className="nav-link-text ms-1">Quản Lý Sản Phẩm</span>
-                            </a>
+                            </Link>
                         </li>
                         <li className="nav-item">
                             <a className="nav-link text-white " href="../pages/notifications.html">

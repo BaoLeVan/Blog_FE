@@ -80,7 +80,7 @@ const FindBlogByTopic = () => {
             <div className="post-wrapper pt-100">
                 <section className="post-area">
                     <div className="container">
-                        <div className="row justify-content-center">
+                        <div className="row justify-content-center">                  
                             <div className="col-lg-8">
                                 <div className="single-page-post">
                                     {

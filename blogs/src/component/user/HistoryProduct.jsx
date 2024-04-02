@@ -10,6 +10,9 @@ const HistoryProduct = () => {
     const [user, setUser] = useState();
     const [status, setStatus] = useState(false);
     const [history, setHistory] = useState();
+    const [totalPages, setTotalPages] = useState(0);
+    const [page, setPage] = useState(0);
+    const [loading, setLoading] = useState(false)
 
     const handleId = (id) => {
         setIdUser(id);
@@ -20,14 +23,23 @@ const HistoryProduct = () => {
             getUserById(idUser).then(res => {
                 setUser(res);
             })
-            getProductHistory(0, idUser).then(res => {
-                setHistory(res.content)
-            })
         }
         if (user) {
             setStatus(user.status)
         }
     }, [idUser, user])
+
+    useEffect(() => {
+        if (idUser) {
+            setLoading(true)
+            getProductHistory(page, idUser).then(res => {
+                console.log(res);
+                setLoading(false)
+                setHistory(prev => prev ? [...prev, ...res.content] : [...res.content]);
+                setTotalPages(res.totalPages)
+            })
+        }
+    }, [page, idUser])
 
     function formatNumber(number) {
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -134,7 +146,18 @@ const HistoryProduct = () => {
                                             }
                                         </tbody>
                                     </table>
-
+                                    {
+                                        page < totalPages && (
+                                            <div className='row d-flex justify-content-center mt-4'>
+                                                <a style={{
+                                                    fontSize: '9px', borderTop: " #62bdfc 0.5px solid",
+                                                    color: "black",
+                                                    padding: " 0 7px",
+                                                    fontSize: "10px",textAlign:'center'
+                                                }} className="col-2 primary-btn load-more mt-60" onClick={() => setPage(page + 1)} >{loading ? "Loading...." : "Show more"}</a>
+                                            </div>
+                                        )
+                                    }
                                 </div>
                             </div>
                         </div>

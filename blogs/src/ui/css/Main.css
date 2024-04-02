@@ -2835,6 +2835,14 @@ color: #f12828;
     font-size: 15px;
 
 }
+.format-content-new {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: 15px;
+
+}
 .format-content-title {
     display: -webkit-box;
     -webkit-line-clamp: 1;

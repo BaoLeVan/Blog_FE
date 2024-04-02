@@ -1,39 +1,82 @@
 import axios from "axios";
 
-export const addToCart = async (idProduct,idUser) => {
-    const res = await axios.get(`http://localhost:8080/api/cart/${idProduct}/${idUser}`)
+export async function addToCart(idProduct, idUser) {
+    const data = { idProduct, idUser }
+    const token = localStorage.getItem("token")
+    const res = await axios.post(`http://localhost:8080/api/cart`, data, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
     return res.data;
 }
 
-export const getListCart = async (idUser) => {
-    const res = await axios.get(`http://localhost:8080/api/cart/${idUser}`)
+export async function getListCart(idUser) {
+    const token = localStorage.getItem("token")
+    const res = await axios.get(`http://localhost:8080/api/cart/${idUser}`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
     return res.data;
 }
 
-export const minus = async (idProduct,idUser) => {
-    const res = await axios.get(`http://localhost:8080/api/cart/minus/${idProduct}/${idUser}`)
+export async function minus(idProduct, idUser) {
+    const data = { idProduct, idUser }
+    const token = localStorage.getItem("token")
+    const res = await axios.post(`http://localhost:8080/api/cart/minus`, data, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
     return res.data;
 }
-export const add = async (idProduct,idUser) => {
-    const res = await axios.get(`http://localhost:8080/api/cart/add/${idProduct}/${idUser}`)
+export async function add(idProduct, idUser) {
+    const data = { idProduct, idUser }
+    const token = localStorage.getItem("token")
+    const res = await axios.post(`http://localhost:8080/api/cart/add`, data, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
     return res.data;
 }
-export const getTotalPrice = async (idUser) => {
-    const res = await axios.get(`http://localhost:8080/api/cart/totalPrice/${idUser}`)
+export async function getTotalPrice(idUser) {
+    const token = localStorage.getItem("token")
+    const res = await axios.get(`http://localhost:8080/api/cart/totalPrice/${idUser}`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
     return res.data;
 }
 
-export const getPaymentCart = async (idUser,totalPrice) => {
-    const res = await axios.get(`http://localhost:8080/api/paymentCart?idAccount=${idUser}&totalPrice=${totalPrice}`)
+export async function getPaymentCart(idUser, totalPrice) {
+    const token = localStorage.getItem("token")
+    const res = await axios.get(`http://localhost:8080/api/paymentCart?idAccount=${idUser}&totalPrice=${totalPrice}`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
     return res.data;
 }
 
-export const getCountCart = async (idUser) => {
-    const res = await axios.get(`http://localhost:8080/api/cart/count/${idUser}`)
+export async function getCountCart(idUser) {
+    const token = localStorage.getItem("token")
+    const res = await axios.get(`http://localhost:8080/api/cart/count/${idUser}`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
     return res.data;
 }
 
-export const deleteCart = async (idProduct,idUser) => {
-    const res = await axios.delete(`http://localhost:8080/api/cart/deleteCart?idProduct=${idProduct}&idUser=${idUser}`)
+export async function deleteCart(idProduct, idUser) {
+    const token = localStorage.getItem("token")
+    const res = await axios.delete(`http://localhost:8080/api/cart/deleteCart?idProduct=${idProduct}&idUser=${idUser}`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
     return res.data;
 }

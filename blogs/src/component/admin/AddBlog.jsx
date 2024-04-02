@@ -22,6 +22,7 @@ const AddBlog = () => {
   const [imgUpload, setImgUpload] = useState(null);
   const [imgUrls, setImgUrls] = useState([]);
   const [value, setValue] = useState('');
+  const [idUser,setIdUser] = useState(localStorage.getItem("idUser"))
   useEffect(() => {
     getAllCategory().then(res => {
       setCategorys(res)
@@ -52,7 +53,7 @@ const AddBlog = () => {
     categoryId: "",
     topicId: "",
     view: 0,
-    userId: 1
+    userId: idUser
   }
 
   console.log(value);

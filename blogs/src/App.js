@@ -18,6 +18,9 @@ import Cart from './component/product/Cart';
 import DetailProduct from './component/product/DetailProduct';
 import PayCartFinish from './component/product/PayCartFinish';
 import HistoryProduct from './component/user/HistoryProduct';
+import ManageProduct from './component/admin/ManageProduct';
+import AddProduct from './component/admin/AddProduct';
+import EditProduct from './component/admin/EditProduct';
 
 
 function App() {
@@ -42,7 +45,10 @@ function App() {
           <Route path={'/cart'} element={<Cart/>} /> 
           <Route path={'/detailProduct/:id'} element={<DetailProduct/>} /> 
           <Route path={'/paymentCart/:id'} element={<PayCartFinish/>} />
-          <Route path={'/historyProduct'} element={<HistoryProduct/>}  />
+          <Route path={'/historyProduct'} element={<HistoryProduct/>} />
+          <Route path={'/manageProduct'} element={<ManageProduct/>} />
+          <Route path={'/addProduct'}  element={<AddProduct/>} /> 
+          <Route path={'/editProduct/:id'} element={<EditProduct/>} />
         </Routes>
       </BrowserRouter>
     </>

@@ -69,10 +69,23 @@ const DetailBlog = () => {
     }
 
     const onHandleFavorite = (id, idUser) => {
-        getCountAndAddFavorite(id, idUser).then(res => {
-            setCount(res)
-        })
+        if (idUser == null) {
+            localStorage.setItem("checkFavorite", "checkFavorite")
+            localStorage.setItem("idBLog", id)
+            native("/login");
+        } else {
+            getCountAndAddFavorite(id, idUser).then(res => {
+                setCount(res)
+            }
+            )
+        }
     }
+    useEffect(() => {
+        if ((idUser)) {
+            // localStorage.removeItem("idBlog")
+            localStorage.removeItem("checkFavorite")
+        }
+    }, [])
 
     useEffect(() => {
         if (idUser) {
@@ -83,7 +96,7 @@ const DetailBlog = () => {
         }
     }, [count, idUser])
 
-    if (!blog || !categorys || !topic) return (
+    if (!blog || !topic) return (
         <div class="main">
             <div class="mario_bin"></div>
             <div class="mario_run">
@@ -144,7 +157,7 @@ const DetailBlog = () => {
                                         <a onClick={() => onHandleFavorite(blog.id, idUser)} >
                                             {checkFavorite == 1 ?
                                                 <button style={{ background: '#7979ff' }} className="btn">
-                                                    <i class="far fa-star"></i> <span style={{color:'red'}}>Favorite</span> </button> :
+                                                    <i class="far fa-star"></i> <span style={{ color: 'red' }}>Favorite</span> </button> :
                                                 <button className="btn">
                                                     <i class="far fa-star"></i> Favorite</button>
                                             }
@@ -161,16 +174,6 @@ const DetailBlog = () => {
                                                     <a onClick={e => onFindBLog(value.id)}>{value.nameTopic} </a>
                                                 </li>
 
-                                            ))
-                                        }
-                                    </ul>
-                                </div>
-                                <div className="single_widget tag_widget">
-                                    <h4 style={{ fontSize: '18px' }} className="text-uppercase pb-20 d-flex justify-content-center">Category</h4>
-                                    <ul>
-                                        {
-                                            categorys.map(value => (
-                                                <li><Link to={""}>{value.typeCategory}</Link></li>
                                             ))
                                         }
                                     </ul>

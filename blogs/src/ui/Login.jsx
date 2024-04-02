@@ -1,19 +1,60 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import '../ui/css/Login.css'
 import { Link } from 'react-router-dom'
+import { login } from '../service/Login&Logout';
+import SweetAlert from "sweetalert";
+import { useNavigate } from "react-router-dom";
+
 
 const Login = () => {
-const [account,setAccount] = useState({
-    account:"",
-    password:""
-});
-    const handleLogin =() => {
-
+    const navigate = useNavigate();
+    const [account, setAccount] = useState({
+        account: "",
+        password: ""
+    });
+    const [error, setError] = useState("");
+    const [idBlog, setIdBlog] = useState();
+    const [favorite, setFavorite] = useState(false)
+    useEffect(() => {
+        const favorite = localStorage.getItem("checkFavorite");
+        const idBlog = localStorage.getItem("idBLog")
+        if (idBlog) {
+            console.log(idBlog);
+            setIdBlog(idBlog);
+        }
+        if (favorite == "checkFavorite") {
+            setFavorite(true);
+        }
+    }, [])
+    const handleLogin = async () => {
+        try {
+            if (account.account === "", account.password === "") {
+                setError("Tên đăng nhập và mật khẩu không được để trống!");
+            } else {
+                const req = await login(account)
+                localStorage.setItem('idUser', req.dataRes.id)
+                localStorage.setItem('nameUser', req.dataRes.name)
+                localStorage.setItem('image', req.dataRes.image)
+                localStorage.setItem('token', req.token)
+                localStorage.setItem('role', req.role)
+                localStorage.setItem('isLogin', true)
+                SweetAlert("Đăng nhập thành công!", `Chào mừng ${localStorage.getItem("nameUser")} đến với hệ thống!`, "success")
+                if (favorite) {
+                    console.log(favorite);
+                    navigate(`/detail/${idBlog}`);
+                } else {
+                    console.log(favorite);
+                    navigate('/');
+                }
+            }
+        } catch (err) {
+            setError("Tên đăng nhập hoặc mật khẩu không chính xác!");
+        }
     }
 
 
     const onChangeAccount = (e) => {
-        const {name, value} = e.target;
+        const { name, value } = e.target;
         setAccount((prev) => ({
             ...prev,
             [name]: value,
@@ -56,7 +97,7 @@ const [account,setAccount] = useState({
                                         <div className="input-group input-group-outline my-3">
                                             <input placeholder='Tài khoản' onChange={onChangeAccount} type="text" name='account' className="form-control" />
                                         </div>
-                                        <div className="input-group input-group-outline mb-3"> 
+                                        <div className="input-group input-group-outline mb-3">
                                             <input placeholder='Mật khẩu' onChange={onChangeAccount} type="password" name='password' className="form-control" />
                                         </div>
                                         <div className="form-check form-switch d-flex align-items-center mb-3">
@@ -66,13 +107,19 @@ const [account,setAccount] = useState({
                                         <div className="text-center">
                                             <button onClick={handleLogin} type="button" className="btn bg-gradient-primary w-100 my-4 mb-2">Đăng nhập</button>
                                         </div>
+                                        {error !== "" &&
+                                            <div className="text-center">
+                                                <ul>
+                                                    <li style={{ color: 'red', fontSize: '13px' }}>Tên đăng nhập hoặc mật khẩu không đúng</li>
+                                                </ul>
+                                            </div>
+                                        }
                                         <p className="mt-4 text-sm text-center">
                                             Chưa có tài khoản ?
                                             <Link to={"/logout"} className="text-primary text-gradient font-weight-bold">Đăng ký</Link>
                                             <br />
-                                            <Link style={{fontSize:'13px',fontWeight:'600'}} to={"/"} >Trang chủ</Link>
+                                            <Link style={{ fontSize: '13px', fontWeight: '600' }} to={"/"} >Trang chủ</Link>
                                         </p>
-                                      
                                     </form>
                                 </div>
                             </div>

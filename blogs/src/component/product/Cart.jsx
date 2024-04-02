@@ -6,10 +6,9 @@ import { add, deleteCart, getListCart, getPaymentCart, getTotalPrice, minus } fr
 import MySwal from "sweetalert2";
 
 const Cart = () => {
-  const [idUser, setIdUser] = useState();
+  const [idUser, setIdUser] = useState(localStorage.getItem('idUser')|| "");
   const [listProduct, setListProduct] = useState();
   const [total, setTotal] = useState(0)
-
   function formatNumber(number) {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   }
